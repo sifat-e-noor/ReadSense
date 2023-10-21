@@ -7,8 +7,14 @@ import Button from '@mui/material/Button';
 import Image from 'next/image';
 import styles from '../components/button.module.css';
 import Link from 'next/link';
+import { useState } from 'react';
 
 export default function Home() {
+  const [username, setUsername] = useState('')
+  const handleUsernameChange = (value) => {
+    setUsername(value)
+  }
+
   return (
     <>
       <Head><title>{siteTitle}</title></Head> 
@@ -36,23 +42,11 @@ export default function Home() {
               />
           </div>
           <div className={landing.columnRightLower}>
-              <BasicTextFields/>    
-              <Button variant="contained" sx= {{width: '238px'}} className={styles.buttonFilled}>Remember me</Button> 
+              <BasicTextFields setCurrentValue = {handleUsernameChange} />    
+              <Button  variant="contained" sx= {{width: '238px'}} className={styles.buttonFilled}>Remember me</Button> 
           </div>
         </div>
       </div>
    </>
-    // <Layout home>
-      // {/* <Head> */}
-        // {/* <title>{siteTitle}</title> */}
-      // {/* </Head> */}
-      // {/* <section className={utilStyles.headingMd}> */}
-        // {/* <p>[Your Self Introduction]</p> */}
-        // {/* <p> */}
-          // {/* (This is a sample website - you’ll be building a site like this on{' '} */}
-          // {/* <a href="https://nextjs.org/learn">our Next.js tutorial</a>.) */}
-        // {/* </p> */}
-      // {/* </section> */}
-    // {/* </Layout> */}
   );
 }
