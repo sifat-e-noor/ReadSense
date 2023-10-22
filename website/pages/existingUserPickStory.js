@@ -1,16 +1,11 @@
-import Head from 'next/head';
 import * as React from 'react';
 import Stack from '@mui/material/Stack';
-import Layout, { siteTitle } from '../components/layout';
 import utilStyles from '../styles/utils.module.css';
-import BasicButtons from '../components/button';
 import pickstory from '../styles/pickstory.module.css';
 import styles from '../components/button.module.css';
 import Button from '@mui/material/Button';
 import Image from 'next/image';
-import Link from 'next/link';
 import BookCoverImage from '../components/bookCoverImage';
-import { Icon } from '@mui/material';
 import { ArrowBackIosNewRounded, BackHandRounded } from '@mui/icons-material';
 
 export default function existingUserPickStory() {

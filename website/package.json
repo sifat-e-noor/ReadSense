@@ -11,12 +11,18 @@
     "@mui/icons-material": "^5.14.14",
     "@mui/material": "^5.14.14",
     "next": "latest",
+    "next-auth": "^4.24.3",
     "next-google-fonts": "^2.2.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "styled-components": "^6.1.0"
+    "styled-components": "^6.1.0",
+    "swr": "^2.2.4"
   },
   "engines": {
     "node": ">=18"
+  },
+  "devDependencies": {
+    "@types/node": "20.8.7",
+    "typescript": "5.2.2"
   }
 }

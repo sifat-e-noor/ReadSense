@@ -16,6 +16,7 @@ import newusercontext from '../styles/newusercontext.module.css';
 import Stack from '@mui/material/Stack';
 import CustomRadioChip from '../components/CustomRadioChip';
 import RowRadioButtonsGroup from '../components/customRadioButton';
+import LoginButton from '../components/login-btn';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -66,6 +67,7 @@ export default function CustomizedDialogs() {
       <Button variant="outlined" onClick={handleClickOpen}>
         Open dialog
       </Button>
+      <LoginButton />
       <BootstrapDialog
         onClose={handleClose}
         aria-labelledby="customized-dialog-title"
