@@ -8,6 +8,7 @@ import Image from 'next/image';
 import styles from '../components/button.module.css';
 import Link from 'next/link';
 import { useState } from 'react';
+import LoginButton from '../components/login-btn';
 
 export default function Home() {
   const [username, setUsername] = useState('')
@@ -45,6 +46,7 @@ export default function Home() {
               <BasicTextFields setCurrentValue = {handleUsernameChange} />    
               <Button  variant="contained" sx= {{width: '238px'}} className={styles.buttonFilled}>Remember me</Button> 
           </div>
+          <LoginButton username={username} />
         </div>
       </div>
    </>
