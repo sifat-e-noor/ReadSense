@@ -1,4 +1,4 @@
-﻿using ReadSenseApi.Entities;
+﻿using ReadSenseApi.Database.Entities;
 using System.Text.Json.Serialization;
 
 namespace ReadSenseApi.Models

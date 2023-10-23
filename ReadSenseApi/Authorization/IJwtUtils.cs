@@ -1,4 +1,4 @@
-﻿using ReadSenseApi.Entities;
+﻿using ReadSenseApi.Database.Entities;
 
 namespace ReadSenseApi.Authorization
 {

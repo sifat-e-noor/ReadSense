@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ReadSenseApi.Database.Entities;
 using ReadSenseApi.Models;
 using ReadSenseApi.Services;
 
@@ -23,6 +24,9 @@ namespace ReadSenseApi.Controllers
         [HttpPost("authenticate")]
         public IActionResult Authenticate(AuthenticateRequest model)
         {
+            if (string.IsNullOrEmpty(model.Username))
+                return BadRequest(new { message = "Username Cannot be Empty" });
+
             var response = _userService.Authenticate(model);
 
             if (response == null)
@@ -41,27 +45,36 @@ namespace ReadSenseApi.Controllers
 
         // GET api/<UsersController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public IActionResult Get(int id)
         {
-            return "value";
+            var user = _userService.GetById(id);
+
+            if (user == null)
+                return NotFound();
+
+            return Ok(user);
         }
 
         // POST api/<UsersController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public IActionResult Post([FromBody] User user)
         {
+            // return http response with status code 501 Not Implemented
+            return StatusCode(501);
         }
 
         // PUT api/<UsersController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public IActionResult Put(int id, [FromBody] User user)
         {
+            return StatusCode(501);
         }
 
         // DELETE api/<UsersController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
+            return StatusCode(501);
         }
     }
 }

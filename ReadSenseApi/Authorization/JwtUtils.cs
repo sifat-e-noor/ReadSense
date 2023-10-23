@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using ReadSenseApi.Database.Entities;
 using ReadSenseApi.Helpers;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -19,7 +20,7 @@ namespace ReadSenseApi.Authorization
                 throw new Exception("JWT secret not configured");
         }
 
-        public string GenerateJwtToken(Entities.User user)
+        public string GenerateJwtToken(User user)
         {
             // generate token that is valid for 7 days
             var tokenHandler = new JwtSecurityTokenHandler();
