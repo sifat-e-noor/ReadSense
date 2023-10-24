@@ -10,10 +10,10 @@ export default function BasicTextFields(props) {
     setValue(event.target.value);
     props.setCurrentValue(event.target.value);
   }
-
+  
   return (
     <Box
-      component="form"
+      component="div"
       sx={{
         '& > :not(style)': { m: 1, width: '25ch' },
       }}
@@ -21,7 +21,7 @@ export default function BasicTextFields(props) {
       autoComplete="off"
     >
       {/* <TextField id="outlined-basic" label="Outlined" variant="outlined" /> */}
-      <TextField id="filled-basic" label="Email address" value={value} onChange={handleChange} variant="filled" sx={{ borderColor: 'green', fontFamily: 'Nunito_Sans, Sans-serif' }}/>
+      <TextField id="filled-basic" inputProps={props.inputProps} label="Email address" value={value} onChange={handleChange} variant="filled" sx={{ borderColor: 'green', fontFamily: 'Nunito_Sans, Sans-serif' }}/>
       {/* <TextField id="standard-basic" label="Standard" variant="standard" /> */}
     </Box>
   );

@@ -6,20 +6,28 @@ import landing from '../styles/landing.module.css';
 import Button from '@mui/material/Button';
 import Image from 'next/image';
 import styles from '../components/button.module.css';
-import { useState } from 'react';
 import { signIn } from 'next-auth/react';
 
 
 export default function Home() {
-  const [username, setUsername] = useState('')
+
   const handleUsernameChange = (value) => {
-    setUsername(value)
+    // Do nothing
   }
 
-  const onSubmit = async () => {
+  const inputProps = {
+    required: true,
+    type: 'email',
+    name: 'username',
+  }
+
+  const onSubmit = async (event) => {
+    event.preventDefault()
+    const formData = new FormData(event.currentTarget)
+
     const result = await signIn('credentials', {
       redirect: true,
-      username,
+      username:formData.get('username'),
       password: '',
       callbackUrl: '/'
     })
@@ -51,8 +59,10 @@ export default function Home() {
               />
           </div>
           <div className={landing.columnRightLower}>
-              <BasicTextFields setCurrentValue = {handleUsernameChange} />    
-              <Button onClick={onSubmit}  variant="contained" sx= {{width: '238px'}} className={styles.buttonFilled}>Remember me</Button> 
+            <form onSubmit={onSubmit}>
+              <BasicTextFields setCurrentValue = {handleUsernameChange} inputProps={inputProps} />    
+              <Button type="submit"  variant="contained" sx= {{width: '238px'}} className={styles.buttonFilled}>Remember me</Button> 
+            </form>
           </div>
           
         </div>
