@@ -44,7 +44,7 @@ function ElevationScroll(props) {
   });
 
   return React.cloneElement(children, {
-    elevation: trigger ? 4 : 0,
+    elevation: trigger ? 0 : 0,
   });
 }
 
@@ -75,8 +75,8 @@ export default function Layout(props) {
       <React.Fragment>
         <CssBaseline />
         <ElevationScroll {...props}>
-          <AppBar  sx={{ backgroundColor: 'white'}}>
-            <div className={styles.logoHeader}>
+          <AppBar sx={{ backgroundColor: 'transparent'}}>
+            {/* <div className={styles.logoHeader}>
               <Image
                 priority
                 src="/images/smallLogo.png"
@@ -87,9 +87,9 @@ export default function Layout(props) {
                 style={{ width: 'auto', height: 'auto'}} // optional
                 alt=""
               />
-            </div>
+            </div> */}
             {/* <div className={styles.header}> */}
-            <Toolbar component='div' variant="regular" className={styles.toolBar}>  
+            <Toolbar component='div' variant="dense" className={styles.toolBar}>  
               <div className={styles.leftHeader}> 
                 <div className={styles.smallBox}>
                   <Stack spacing={.5} direction="row" alignItems={'center'}>
@@ -178,12 +178,11 @@ export default function Layout(props) {
                     </Stack>
                   </Stack>
                 </div>
-              </div>  
-              
+              </div> 
             </Toolbar>
           </AppBar>
         </ElevationScroll>
-        <Toolbar />
+        {/* <Toolbar /> */}
         {props.children}
       </React.Fragment>
     );
