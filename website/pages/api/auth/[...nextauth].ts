@@ -13,17 +13,16 @@ export const authOptions : NextAuthOptions = {
       // You can pass any HTML attribute to the <input> tag through the object.
       credentials: {
         username: { label: "Username", type: "text", placeholder: "jsmith" },
-        password: { label: "Password", type: "password" }
+        password: { label: "Password", type: "password" },
+        deviceInfo: { label: "Device Info", type: "text" }
       },
       async authorize(credentials, req) {
-        // Add logic here to look up the user from the credentials supplied
-        const userAny = { id: "1", name: "J Smith", email: "jsmith@example.com" }
-        const { username, password } = credentials as any;
-
+        const { username, password, deviceInfo } = credentials as any;
+        
         const response = await fetch("http://localhost:5298/api/Users/authenticate", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ username, password })
+          body: JSON.stringify({ username, password, deviceInfo })
         });
         
         const user = await response.json();

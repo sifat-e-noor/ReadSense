@@ -3,6 +3,7 @@ using ReadSenseApi.Authorization;
 using ReadSenseApi.Database;
 using ReadSenseApi.Database.Entities;
 using ReadSenseApi.Models;
+using System.Text.Json.Nodes;
 
 namespace ReadSenseApi.Services
 {
@@ -37,8 +38,10 @@ namespace ReadSenseApi.Services
                _context.SaveChanges();
             }
 
+            var device = addDeviceInfo(user, model.DeviceInfo);
+
             // authentication successful so generate jwt token
-            var token = _jwtUtils.GenerateJwtToken(user);
+            var token = _jwtUtils.GenerateJwtToken(user, device.Id);
 
             return new AuthenticateResponse(user, token);
         }
@@ -51,6 +54,19 @@ namespace ReadSenseApi.Services
         public User? GetById(int id)
         {
             return _context.Users.FirstOrDefault(x => x.Id == id);
+        }
+
+        private Device addDeviceInfo(User user, JsonNode? deviceInfo)
+        {
+            var device = new Device();
+
+            device.DeviceInfo = deviceInfo?.ToString();
+            device.UserId = user.Id;
+
+            _context.Devices.Add(device);
+            _context.SaveChanges();
+
+            return device;
         }
     }
 }

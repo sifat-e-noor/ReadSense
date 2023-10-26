@@ -9,5 +9,6 @@ namespace ReadSenseApi.Database
         }
 
         public DbSet<Entities.User> Users { get; set; }
+        public DbSet<Entities.Device> Devices { get; set; }
     }
 }

@@ -20,14 +20,17 @@ namespace ReadSenseApi.Authorization
                 throw new Exception("JWT secret not configured");
         }
 
-        public string GenerateJwtToken(User user)
+        public string GenerateJwtToken(User user, int deviceId)
         {
             // generate token that is valid for 7 days
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_appSettings.Secret!);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(new[] { new Claim("id", user.Id.ToString()) }),
+                Subject = new ClaimsIdentity(new[] { 
+                    new Claim("id", user.Id.ToString()),
+                    new Claim("deviceId", deviceId.ToString())
+                }),
                 Expires = DateTime.UtcNow.AddDays(7),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
@@ -35,7 +38,7 @@ namespace ReadSenseApi.Authorization
             return tokenHandler.WriteToken(token);
         }
 
-        public int? ValidateJwtToken(string? token)
+        public IEnumerable<Claim>? ValidateJwtToken(string? token)
         {
             if (token == null)
                 return null;
@@ -55,10 +58,9 @@ namespace ReadSenseApi.Authorization
                 }, out SecurityToken validatedToken);
 
                 var jwtToken = (JwtSecurityToken)validatedToken;
-                var userId = int.Parse(jwtToken.Claims.First(x => x.Type == "id").Value);
 
-                // return user id from JWT token if validation successful
-                return userId;
+                // return claims from JWT token if validation success
+                return jwtToken.Claims;
             }
             catch
             {
