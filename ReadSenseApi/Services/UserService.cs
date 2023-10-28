@@ -56,6 +56,14 @@ namespace ReadSenseApi.Services
             return _context.Users.FirstOrDefault(x => x.Id == id);
         }
 
+        public void UpdateAgreementSigned(User user, bool agreementSigned)
+        {
+            user.AgreementSigned = agreementSigned;
+
+            _context.Users.Update(user);
+            _context.SaveChanges();
+        }
+
         private Device addDeviceInfo(User user, JsonNode? deviceInfo)
         {
             var device = new Device();

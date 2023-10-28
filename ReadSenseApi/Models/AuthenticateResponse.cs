@@ -10,6 +10,8 @@ namespace ReadSenseApi.Models
         public string? LastName { get; set; }
         public string? UserName { get; set; }
 
+        public Boolean? AgreementSigned { get; set; }
+
         [JsonPropertyName("accessToken")]
         public string Token { get; set; }
 
@@ -20,6 +22,7 @@ namespace ReadSenseApi.Models
             FirstName = user.FirstName;
             LastName = user.LastName;
             UserName = user.Username;
+            AgreementSigned = user.AgreementSigned;
             Token = token;
         }
     }

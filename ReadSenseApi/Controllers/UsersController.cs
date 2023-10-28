@@ -76,5 +76,32 @@ namespace ReadSenseApi.Controllers
         {
             return StatusCode(501);
         }
+
+        // POST api/<UsersController>/agreement
+        [HttpPost("agreement")]
+        public IActionResult Agreement(AgreementRequest agreementSigned)
+        {
+            HttpContext.Items.TryGetValue("User", out Object? userObj);
+
+            if (userObj == null)
+            {
+                return BadRequest(new { message = "User not found" });
+            }
+
+            User user = (User)userObj;
+
+            if (!agreementSigned.AgreementSigned && user.AgreementSigned.GetValueOrDefault())
+            {
+                return BadRequest(new { message = "User are not allowed to change consent" });
+            }
+            else if ( agreementSigned.AgreementSigned == user.AgreementSigned.GetValueOrDefault())
+            {
+                return Ok();
+            }
+
+            _userService.UpdateAgreementSigned(user, agreementSigned.AgreementSigned);
+
+            return Ok();
+        }
     }
 }

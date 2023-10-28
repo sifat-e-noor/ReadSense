@@ -21,5 +21,8 @@ namespace ReadSenseApi.Database.Entities
         [JsonIgnore]
         [MaxLength(50)]
         public string? Password { get; set; }
+
+        [Required]
+        public Boolean? AgreementSigned { get; set; } = false;
     }
 }

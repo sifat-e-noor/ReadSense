@@ -5,17 +5,19 @@ import landing from '../styles/landing.module.css';
 import Button from '@mui/material/Button';
 import Image from 'next/image';
 import styles from '../components/button.module.css';
-import { signIn, getSession, providers } from 'next-auth/react';
+import { signIn, getSession } from 'next-auth/react';
 import * as React from 'react';
 import FingerprintJS from '@fingerprintjs/fingerprintjs';
 import {  useDeviceData   } from 'react-device-detect';
 import toast from "../components/Toast";
+import { useRouter } from "next/router";
 
 
 export default function Home() {
   const [fpHash, setFpHash] = React.useState(undefined);
   const [components, setComponents] = React.useState({});
   const [deviceData, setDeviceData] = React.useState(undefined);
+  const router = useRouter();
 
   const notify = React.useCallback((type, message) => {
     toast({ type, message });
@@ -68,15 +70,16 @@ export default function Home() {
         username:formData.get('username'),
         password: '',
         deviceInfo: JSON.stringify(deviceInfo) ,
-        callbackUrl: '/'
-      }).then( (response) => {        
+        // callbackUrl: '/'
+      }).then( (response) => { 
+        console.log( response);        
         if (response.error) {
           console.log("response:" + response.error);
           notify("error", "Unexpected error occurred. Please retry again.");
           return;
         }
         if (response.ok) {
-          window.location.href = response.url;
+          void router.push("/");
         }
       
       } );
@@ -134,7 +137,7 @@ Home.getInitialProps = async (context) => {
   const session = await getSession({ req });
 
   if (session && res && session.accessToken) {
-    res.writeHead(302, { Location: '/existingUserContext' });
+    res.writeHead(302, { Location: '/' });
     res.end();
     return;
   }

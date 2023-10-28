@@ -8,5 +8,6 @@ namespace ReadSenseApi.Services
         AuthenticateResponse? Authenticate(AuthenticateRequest model);
         IEnumerable<User> GetAll();
         User? GetById(int id);
+        void UpdateAgreementSigned(User user, bool agreementSigned);
     }
 }

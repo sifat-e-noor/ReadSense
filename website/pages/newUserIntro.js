@@ -8,9 +8,55 @@ import newuserintro from '../styles/newuserintro.module.css';
 import styles from '../components/button.module.css';
 import Button from '@mui/material/Button';
 import Image from 'next/image';
-import Link from 'next/link';
+import { useSession } from "next-auth/react";
+import toast from "../components/Toast";
+import { useRouter } from "next/router";
 
 export default function Introduction() {
+    const { data: session } = useSession();
+    const router = useRouter();
+
+    const notify = React.useCallback((type, message) => {
+      toast({ type, message });
+    }, []);
+
+    const handleAggreed = async (event) => {
+      event.preventDefault();
+      let res = undefined;
+      try {
+        res = await fetch('http://localhost:5298/api/users/agreement', {
+          body: JSON.stringify({
+            agreementSigned: true,
+          }),
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + session.accessToken,
+          },
+          method: 'POST'
+        });
+      } catch (error) {
+        console.error('An unexpected error happened occurred:', error);
+        notify("error", "Something went wrong. Please try again later.");
+      }
+
+      if (res?.status === 200) {
+        console.log('agreement signed');
+        notify("success", "Agreement signed successfully.");
+        router.push('/newUserContext');
+      } else {
+        res?.json().then((data) => {
+          if (data.message) {
+            notify("error", data.message);
+          } else {
+            notify("error", "Something went wrong. Please try again later.");
+          }
+          
+        }).catch((err) => {
+          console.log(err);
+        });
+      }
+    }
+
     return (
       <>
         <div className={newuserintro.container} >
@@ -47,7 +93,7 @@ export default function Introduction() {
             <Stack spacing={2} direction="row">
                 {/* <Button variant="text">Text</Button> */}
                 <Button variant="outlined" className={styles.buttonOutline}>No, I don't</Button>
-                <Button variant="contained" className={styles.buttonFilled}>Yes, I agree</Button>
+                <Button variant="contained" className={styles.buttonFilled} onClick={handleAggreed}>Yes, I agree</Button>
             </Stack>
             </div>
           </div>

@@ -26,7 +26,7 @@ export const authOptions : NextAuthOptions = {
         });
         
         const user = await response.json();
-        console.log(user);
+
         if(response.ok && user) {
           return user;
         } else {
@@ -62,6 +62,7 @@ export const authOptions : NextAuthOptions = {
       session.accessToken = token.accessToken
       session.user.id = token.id
       session.user.email = token.userName
+      session.user.agreementSigned = token.agreementSigned
 
       return session;
     },
