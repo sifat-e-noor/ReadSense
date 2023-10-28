@@ -1,21 +1,29 @@
-"use client";
 import Head from 'next/head';
-import Layout, { siteTitle } from '../components/layout';
+import  { siteTitle } from '../components/layout';
 import BasicTextFields from '../components/textfield';
 import landing from '../styles/landing.module.css';
 import Button from '@mui/material/Button';
 import Image from 'next/image';
 import styles from '../components/button.module.css';
-import { signIn } from 'next-auth/react';
+import { signIn, getSession, providers } from 'next-auth/react';
 import * as React from 'react';
 import FingerprintJS from '@fingerprintjs/fingerprintjs';
-import { BrowserView, MobileView, isBrowser, isMobile, useDeviceData , useDeviceSelectors  } from 'react-device-detect';
+import {  useDeviceData   } from 'react-device-detect';
+import toast from "../components/Toast";
 
 
 export default function Home() {
   const [fpHash, setFpHash] = React.useState(undefined);
   const [components, setComponents] = React.useState({});
   const [deviceData, setDeviceData] = React.useState(undefined);
+
+  const notify = React.useCallback((type, message) => {
+    toast({ type, message });
+  }, []);
+
+  const dismiss = React.useCallback(() => {
+    toast.dismiss();
+  }, []);
 
   React.useEffect(() => {
     const setBrowserInfo = async () => {
@@ -46,7 +54,7 @@ export default function Home() {
     type: 'email',
     name: 'username',
   }
-
+  
   const onSubmit = async (event) => {
     event.preventDefault()
     
@@ -54,14 +62,24 @@ export default function Home() {
       const formData = new FormData(event.currentTarget)
       const componentKeys = ["fonts", "languages", "colorDepth", "screenResolution", "timezone", "touchSupport"];
       const deviceInfo = { ...deviceData, fpHash, ...componentKeys.reduce((acc, key) => ({ ...acc, [key]: components[key] }), {})  };
-
+      
       const result = await signIn('credentials', {
-        redirect: true,
+        redirect: false,
         username:formData.get('username'),
         password: '',
         deviceInfo: JSON.stringify(deviceInfo) ,
         callbackUrl: '/'
-      })
+      }).then( (response) => {        
+        if (response.error) {
+          console.log("response:" + response.error);
+          notify("error", "Unexpected error occurred. Please retry again.");
+          return;
+        }
+        if (response.ok) {
+          window.location.href = response.url;
+        }
+      
+      } );
     }
 
     if (fpHash === undefined || components === undefined || deviceData === undefined) {
@@ -87,6 +105,7 @@ export default function Home() {
           </div>
         </div>
         <div className={landing.columnRight}>
+        
           <div className={landing.columnRightUpper}>
             <Image
               src="/images/logo.jpg"
@@ -107,4 +126,20 @@ export default function Home() {
       </div>
    </>
   );
+}
+
+Home.getInitialProps = async (context) => { 
+  const { req, res } = context;
+
+  const session = await getSession({ req });
+
+  if (session && res && session.accessToken) {
+    res.writeHead(302, { Location: '/existingUserContext' });
+    res.end();
+    return;
+  }
+
+  return {
+    session: undefined,
+  };
 }

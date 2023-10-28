@@ -1,17 +1,24 @@
 
-import Head from 'next/head';
 import * as React from 'react';
 import Stack from '@mui/material/Stack';
-import Layout, { siteTitle } from '../components/layout';
 import utilStyles from '../styles/utils.module.css';
 import newusercontext from '../styles/newusercontext.module.css';
 import Image from 'next/image';
 import CustomRadioChip from '../components/CustomRadioChip';
+import { useRouter } from "next/router";
 
 export default function existingUserContext() {
   const [place, setPlace] = React.useState(undefined);
   const [time, setTime] = React.useState(undefined);
   const [brightness, setBrightness] = React.useState(undefined);
+  const router = useRouter();
+
+  React.useEffect(() => {
+    if (place && time && brightness) {
+      console.log('place, time, brightness', place, time, brightness);
+      router.push('/existingUserPickStory');
+    }
+  }, [ place, time, brightness ]);
 
   const placeRadioButtonFields = [
     { label: 'A quite place', value: 'quite' },
