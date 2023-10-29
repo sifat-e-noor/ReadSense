@@ -2,7 +2,7 @@ import Head from 'next/head';
 import Image from 'next/image';
 import styles from './layout.module.css';
 import utilStyles from '../styles/utils.module.css';
-import Link from 'next/link';
+import { useRouter } from 'next/router';
 import Stack from '@mui/material/Stack';
 import * as React from 'react';
 import PropTypes from 'prop-types';
@@ -60,6 +60,12 @@ ElevationScroll.propTypes = {
 
 export default function Layout(props) {
 
+  const router = useRouter();
+
+  const handleBackButtonClick = () => {
+    router.push('/existingUserPickStory');
+  };
+
   const [fonttype, setFonttype] = React.useState(undefined);
 
   const fonttypekRadioButtonFields = [
@@ -93,7 +99,7 @@ export default function Layout(props) {
               <div className={styles.leftHeader}> 
                 <div className={styles.smallBox}>
                   <Stack spacing={.5} direction="row" alignItems={'center'}>
-                    <IconButton edge="start" color="inherit" aria-label="backArrow" sx={{ mr: 2 }}>
+                    <IconButton edge="start" color="inherit" aria-label="backArrow" sx={{ mr: 2 }} onClick={handleBackButtonClick}>
                       <ArrowBackIosNewRounded className={styles.logoColor}/>
                     </IconButton>
                     <Typography variant="h6" component='div' className={styles.backText}>

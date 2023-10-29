@@ -49,12 +49,13 @@ export default function Home() {
               sizes="100vw"
               style={{ width: 'auto', height: 'auto'}} // optional
               />
-          </div>
-          <div className={landing.columnRightLower}>
               <BasicTextFields setCurrentValue = {handleUsernameChange} />    
               <Button onClick={onSubmit}  variant="contained" sx= {{width: '238px'}} className={styles.buttonFilled}>Remember me</Button> 
           </div>
-          
+          <div className={landing.columnRightLower}>
+              {/* <BasicTextFields setCurrentValue = {handleUsernameChange} />    
+              <Button onClick={onSubmit}  variant="contained" sx= {{width: '238px'}} className={styles.buttonFilled}>Remember me</Button>  */}
+          </div>
         </div>
       </div>
    </>

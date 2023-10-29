@@ -34,7 +34,7 @@
 
   .columnRight{
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     flex: 45%;
     height: 100vh;
     background-color: aquamarine;
@@ -44,10 +44,10 @@
   .columnRightUpper{
     flex: 1;
     display: flex;
-    flex-Direction: row;
+    flex-Direction: column;
     background-Color: white;
-    justify-Content: flex-start;
-    align-Items: flex-end;
+    justify-Content: center;
+    align-Items: center;
   }
 
   .columnRightLower{
@@ -56,5 +56,5 @@
     flex-Direction: column;
     background-Color: white;
     justify-Content: flex-start;
-    align-Items: flex-start;
+    align-Items: center;
   }

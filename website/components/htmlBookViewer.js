@@ -2,11 +2,15 @@
 "use client";
 import { useEffect, useState } from 'react';
 
-const HTMLViewer = () => {
+const HTMLViewer = (props) => {
   const [htmlContent, setHTMLContent] = useState('');
+  
+  console.log('inside reading state')
+  console.log(props);
 
   useEffect(() => {
-    fetch('/books/TheLittlePrince.html')
+    // Fetch the HTML content for the selected book
+    fetch(props.src)
       .then((response) => response.text())
       .then((data) => {
         setHTMLContent(data);
@@ -14,7 +18,7 @@ const HTMLViewer = () => {
       .catch((error) => {
         console.error('Error loading the book:', error);
       });
-  }, []);
+  }, [props]);
 
   return (
     <div

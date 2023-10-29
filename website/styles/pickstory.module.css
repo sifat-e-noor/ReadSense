@@ -56,7 +56,7 @@
     background-Color: white;
     justify-Content: flex-start;
     /* max-width: 100%; */
-    /* flex-wrap: wrap; */
+    flex-wrap: wrap;
     /* align-Items: center; */
     /* width: 80%; */
   }

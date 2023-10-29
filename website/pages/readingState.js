@@ -8,8 +8,13 @@ import Image from 'next/image';
 import styles from '../components/button.module.css';
 import Link from 'next/link';
 import HTMLViewer from '../components/htmlBookViewer';
+import { useRouter } from 'next/router';
 
-export default function Home() {
+export default function Home(props) {
+  const router = useRouter();
+  const { bookContent } = router.query;
+
+
   return (
     <Layout home>
       <Head>
@@ -17,7 +22,7 @@ export default function Home() {
       </Head>
       <section className={utilStyles.bookText}>
         <div>
-          <HTMLViewer />
+          <HTMLViewer src={bookContent} />
         </div>
       </section>
     </Layout>
