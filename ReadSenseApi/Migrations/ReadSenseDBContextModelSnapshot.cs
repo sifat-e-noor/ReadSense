@@ -34,6 +34,16 @@ namespace ReadSenseApi.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("FingerPrint")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTimeOffset?>("Inserted")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<DateTimeOffset?>("LastUpdated")
+                        .HasColumnType("datetimeoffset");
+
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
@@ -42,6 +52,42 @@ namespace ReadSenseApi.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Devices");
+                });
+
+            modelBuilder.Entity("ReadSenseApi.Database.Entities.Environment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("BrightnessLevel")
+                        .HasColumnType("int");
+
+                    b.Property<int>("DeviceId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTimeOffset?>("Inserted")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<DateTimeOffset?>("LastUpdated")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<int?>("PlaceState")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("TimeOfDay")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DeviceId");
+
+                    b.ToTable("Environments");
                 });
 
             modelBuilder.Entity("ReadSenseApi.Database.Entities.User", b =>
@@ -60,9 +106,15 @@ namespace ReadSenseApi.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<DateTimeOffset?>("Inserted")
+                        .HasColumnType("datetimeoffset");
+
                     b.Property<string>("LastName")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
+
+                    b.Property<DateTimeOffset?>("LastUpdated")
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<string>("Password")
                         .HasMaxLength(50)
@@ -87,6 +139,17 @@ namespace ReadSenseApi.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("ReadSenseApi.Database.Entities.Environment", b =>
+                {
+                    b.HasOne("ReadSenseApi.Database.Entities.Device", "Device")
+                        .WithMany()
+                        .HasForeignKey("DeviceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Device");
                 });
 #pragma warning restore 612, 618
         }

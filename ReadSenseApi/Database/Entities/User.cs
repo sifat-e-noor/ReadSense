@@ -24,5 +24,9 @@ namespace ReadSenseApi.Database.Entities
 
         [Required]
         public Boolean? AgreementSigned { get; set; } = false;
+
+        public DateTimeOffset? Inserted { get; set; }
+
+        public DateTimeOffset? LastUpdated { get; set; }
     }
 }

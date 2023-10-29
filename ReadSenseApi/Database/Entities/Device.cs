@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Reflection.Metadata;
 
 namespace ReadSenseApi.Database.Entities
 {
@@ -11,11 +10,18 @@ namespace ReadSenseApi.Database.Entities
 
         public int UserId { get; set; }
 
+        [MaxLength(100)]
+        public string? FingerPrint { get; set; }
+
         [Required]
         public string? DeviceInfo { get; set; }
 
         [Required]
         [ForeignKey(nameof(UserId))]
         public User? User { get; init; }
+
+        public DateTimeOffset? Inserted { get; set; }
+
+        public DateTimeOffset? LastUpdated { get; set; }
     }
 }

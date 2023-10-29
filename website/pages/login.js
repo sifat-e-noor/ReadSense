@@ -69,6 +69,7 @@ export default function Home() {
         redirect: false,
         username:formData.get('username'),
         password: '',
+        fingerPrint: fpHash,
         deviceInfo: JSON.stringify(deviceInfo) ,
         // callbackUrl: '/'
       }).then( (response) => { 

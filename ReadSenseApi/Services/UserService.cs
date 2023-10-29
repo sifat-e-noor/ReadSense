@@ -22,8 +22,7 @@ namespace ReadSenseApi.Services
         public AuthenticateResponse? Authenticate(AuthenticateRequest model)
         {
             var user = _context.Users.SingleOrDefault(x => !string.IsNullOrEmpty(model.Username) 
-                && model.Username.ToLower().Equals(x.Username) 
-                && x.Password == model.Password);
+                && model.Username.ToLower().Equals(x.Username));
 
             // If user does not exist, create a new User
             if (user == null) 
@@ -31,14 +30,14 @@ namespace ReadSenseApi.Services
                user = new User
                {
                    Username = model.Username?.ToLower(),
-                   Password = model.Password
+                   Inserted = DateTime.Now.ToUniversalTime(),
                };
                
                _context.Users.Add(user);
                _context.SaveChanges();
             }
 
-            var device = addDeviceInfo(user, model.DeviceInfo);
+            var device = addDeviceInfo(user,model.FingerPrint, model.DeviceInfo);
 
             // authentication successful so generate jwt token
             var token = _jwtUtils.GenerateJwtToken(user, device.Id);
@@ -59,17 +58,27 @@ namespace ReadSenseApi.Services
         public void UpdateAgreementSigned(User user, bool agreementSigned)
         {
             user.AgreementSigned = agreementSigned;
+            user.LastUpdated = DateTime.Now.ToUniversalTime();
 
             _context.Users.Update(user);
             _context.SaveChanges();
         }
 
-        private Device addDeviceInfo(User user, JsonNode? deviceInfo)
+        private Device addDeviceInfo(User user, String? fingerPrint, JsonNode? deviceInfo)
         {
-            var device = new Device();
+            var device = _context.Devices.FirstOrDefault(x => x.UserId == user.Id && x.FingerPrint == fingerPrint);
+
+            if (fingerPrint != null &&  device != null)
+            {
+                return device;
+            }
+            
+            device = new Device();
 
             device.DeviceInfo = deviceInfo?.ToString();
             device.UserId = user.Id;
+            device.FingerPrint = fingerPrint;
+            device.Inserted = DateTime.Now.ToUniversalTime();
 
             _context.Devices.Add(device);
             _context.SaveChanges();

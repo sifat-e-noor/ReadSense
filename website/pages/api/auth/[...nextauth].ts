@@ -14,15 +14,16 @@ export const authOptions : NextAuthOptions = {
       credentials: {
         username: { label: "Username", type: "text", placeholder: "jsmith" },
         password: { label: "Password", type: "password" },
-        deviceInfo: { label: "Device Info", type: "text" }
+        deviceInfo: { label: "Device Info", type: "text" },
+        fingerPrint: { label: "Device Info", type: "text" }
       },
       async authorize(credentials, req) {
-        const { username, password, deviceInfo } = credentials as any;
+        const { username, password, deviceInfo, fingerPrint } = credentials as any;
         
         const response = await fetch("http://localhost:5298/api/Users/authenticate", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ username, password, deviceInfo })
+          body: JSON.stringify({ username, password, deviceInfo, fingerPrint })
         });
         
         const user = await response.json();

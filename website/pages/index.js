@@ -16,12 +16,13 @@ export default function Landing() {
       if(session.user.agreementSigned){
         router.push("/existingUserContext");
       } else {
-        var agreementSigned = getUserAgreement(session.user.id);
-        if(agreementSigned){
-          router.push("/existingUserContext");
-        } else {
-          router.push("/newUserIntro");
-        }
+        getUserAgreement(session.user.id).then((agreementSigned) => {
+          if(agreementSigned){
+            router.push("/existingUserContext");
+          } else {
+            router.push("/newUserIntro");
+          }
+        });
       }
     }
   }, [status]);
@@ -43,7 +44,9 @@ export default function Landing() {
     }
 
     if (response?.status === 200) {
+      console.log("Got 200 response from server");
       const data = await response.json();
+      console.log(data);
       return data.agreementSigned;
     } else {
       return false;
