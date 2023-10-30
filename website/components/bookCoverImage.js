@@ -28,7 +28,7 @@ export default function BookCoverImage( props) {
                 width={0}
                 height={0}
                 sizes="100vw"
-                style={{ width: 'auto', height: 'auto'}} // optional
+                style={{ width: '100px', height: '125px'}} // optional
                 className={styles.imageOutlinedActive}  
                 onClick={handleClick}
                 />
@@ -39,7 +39,7 @@ export default function BookCoverImage( props) {
                 width={0}
                 height={0}
                 sizes="100vw"
-                style={{ width: 'auto', height: 'auto'}} // optional
+                style={{ width: '150px', height: '175px'}} // optional
                 className={styles.imageOutlinedHover}
                 onClick={handleClick}
             />
@@ -49,7 +49,7 @@ export default function BookCoverImage( props) {
                 width={0}
                 height={0}
                 sizes="100vw"
-                style={{ width: 'auto', height: 'auto'}} // optional
+                style={{ width: '100px', height: '125px'}} // optional
                 className={styles.imageoutlined}
                 onClick={handleClick}
             />

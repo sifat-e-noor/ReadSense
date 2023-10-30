@@ -2,7 +2,7 @@ import Head from 'next/head';
 import Image from 'next/image';
 import styles from './layout.module.css';
 import utilStyles from '../styles/utils.module.css';
-import Link from 'next/link';
+import { useRouter } from 'next/router';
 import Stack from '@mui/material/Stack';
 import * as React from 'react';
 import PropTypes from 'prop-types';
@@ -44,7 +44,7 @@ function ElevationScroll(props) {
   });
 
   return React.cloneElement(children, {
-    elevation: trigger ? 4 : 0,
+    elevation: trigger ? 0 : 0,
   });
 }
 
@@ -59,6 +59,12 @@ ElevationScroll.propTypes = {
 
 
 export default function Layout(props) {
+
+  const router = useRouter();
+
+  const handleBackButtonClick = () => {
+    router.push('/existingUserPickStory');
+  };
 
   const [fonttype, setFonttype] = React.useState(undefined);
 
@@ -75,8 +81,8 @@ export default function Layout(props) {
       <React.Fragment>
         <CssBaseline />
         <ElevationScroll {...props}>
-          <AppBar  sx={{ backgroundColor: 'white'}}>
-            <div className={styles.logoHeader}>
+          <AppBar sx={{ backgroundColor: 'transparent'}}>
+            {/* <div className={styles.logoHeader}>
               <Image
                 priority
                 src="/images/smallLogo.png"
@@ -87,13 +93,13 @@ export default function Layout(props) {
                 style={{ width: 'auto', height: 'auto'}} // optional
                 alt=""
               />
-            </div>
+            </div> */}
             {/* <div className={styles.header}> */}
-            <Toolbar component='div' variant="regular" className={styles.toolBar}>  
+            <Toolbar component='div' variant="dense" className={styles.toolBar}>  
               <div className={styles.leftHeader}> 
                 <div className={styles.smallBox}>
                   <Stack spacing={.5} direction="row" alignItems={'center'}>
-                    <IconButton edge="start" color="inherit" aria-label="backArrow" sx={{ mr: 2 }}>
+                    <IconButton edge="start" color="inherit" aria-label="backArrow" sx={{ mr: 2 }} onClick={handleBackButtonClick}>
                       <ArrowBackIosNewRounded className={styles.logoColor}/>
                     </IconButton>
                     <Typography variant="h6" component='div' className={styles.backText}>
@@ -178,12 +184,11 @@ export default function Layout(props) {
                     </Stack>
                   </Stack>
                 </div>
-              </div>  
-              
+              </div> 
             </Toolbar>
           </AppBar>
         </ElevationScroll>
-        <Toolbar />
+        {/* <Toolbar /> */}
         {props.children}
       </React.Fragment>
     );

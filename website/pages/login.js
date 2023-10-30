@@ -125,7 +125,10 @@ export default function Home() {
               <Button type="submit"  variant="contained" sx= {{width: '238px'}} className={styles.buttonFilled}>Remember me</Button> 
             </form>
           </div>
-          
+          <div className={landing.columnRightLower}>
+              {/* <BasicTextFields setCurrentValue = {handleUsernameChange} />    
+              <Button onClick={onSubmit}  variant="contained" sx= {{width: '238px'}} className={styles.buttonFilled}>Remember me</Button>  */}
+          </div>
         </div>
       </div>
    </>
