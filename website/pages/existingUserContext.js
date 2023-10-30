@@ -1,32 +1,91 @@
-import Head from 'next/head';
+
 import * as React from 'react';
 import Stack from '@mui/material/Stack';
-import Layout, { siteTitle } from '../components/layout';
 import utilStyles from '../styles/utils.module.css';
 import newusercontext from '../styles/newusercontext.module.css';
 import Image from 'next/image';
 import CustomRadioChip from '../components/CustomRadioChip';
+import { useSession } from "next-auth/react";
+import toast from "../components/Toast";
+import { useRouter } from "next/router";
 
 export default function existingUserContext() {
   const [place, setPlace] = React.useState(undefined);
   const [time, setTime] = React.useState(undefined);
   const [brightness, setBrightness] = React.useState(undefined);
+  const router = useRouter();
+  const { data: session } = useSession();
+
+  const notify = React.useCallback((type, message) => {
+    toast({ type, message });
+  }, []);
+
+  const dismiss = React.useCallback(() => {
+    toast.dismiss();
+  }, []);
+
+  React.useEffect(() => {
+    if (place && time && brightness) {
+      console.log('place, time, brightness', place, time, brightness);
+      handleAggreed({placeState:place,timeOfDay:time,brightnessLevel:brightness});
+    }
+  }, [ place, time, brightness ]);
+
+  const handleAggreed = async ({placeState,timeOfDay,brightnessLevel}) => {
+    notify("info", "We are saving your environment details.....");
+    let res = undefined;
+    try {
+      res = await fetch(process.env.NEXT_PUBLIC_READSENSE_API_URL+'/api/environment', {
+        body: JSON.stringify({
+          placeState,timeOfDay,brightnessLevel
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + session.accessToken,
+        },
+        method: 'POST'
+      });
+    } catch (error) {
+      dismiss();
+      console.error('An unexpected error happened occurred:', error);
+      notify("error", "Something went wrong. Please try again later.");
+    }
+
+    if (res?.status === 200) {
+      dismiss();
+      notify("success", "Environment details saved successfully.");
+      router.push('/existingUserPickStory');
+    } else {
+      res?.json().then((data) => {
+        dismiss();
+        if (data.message) {
+          notify("error", data.message);
+        } else {
+          notify("error", "Something went wrong. Please try again later.");
+        }
+        
+      }).catch((err) => {
+        console.log(err);
+      });
+    }
+  }
 
   const placeRadioButtonFields = [
-    { label: 'A quite place', value: 'quite' },
-    { label: 'A chaotic place', value: 'chaotic' },
+    { label: 'A quite place', value: 'Quiet' },
+    { label: 'A chaotic place', value: 'Chaotic' },
   ];
   
   const timeRadioButtonFields = [
-    { label: 'Morning', value: 'morning' },
-    { label: 'Day', value: 'day' },
-    { label: 'Evening', value: 'evening' },
-    { label: 'Night', value: 'night' },
+    { label: 'Morning', value: 'Morning' },
+    { label: 'Day', value: 'Day' },
+    { label: 'Evening', value: 'Evening' },
+    { label: 'Night', value: 'Night' },
   ];
 
   const brightnessRadioButtonFields = [
-    { label: 'Low', value: 'low' },
-    { label: 'Bright', value: 'bright' },
+    { label: 'Dark', value: 'Dark' },
+    { label: 'Dim', value: 'Dim' },
+    { label: 'Bright', value: 'Bright' },
   ]
   
   const handleClick = () => {

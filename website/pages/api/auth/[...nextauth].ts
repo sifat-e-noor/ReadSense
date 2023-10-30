@@ -13,21 +13,21 @@ export const authOptions : NextAuthOptions = {
       // You can pass any HTML attribute to the <input> tag through the object.
       credentials: {
         username: { label: "Username", type: "text", placeholder: "jsmith" },
-        password: { label: "Password", type: "password" }
+        password: { label: "Password", type: "password" },
+        deviceInfo: { label: "Device Info", type: "text" },
+        fingerPrint: { label: "Device Info", type: "text" }
       },
       async authorize(credentials, req) {
-        // Add logic here to look up the user from the credentials supplied
-        const userAny = { id: "1", name: "J Smith", email: "jsmith@example.com" }
-        const { username, password } = credentials as any;
-
-        const response = await fetch("http://localhost:5298/api/Users/authenticate", {
+        const { username, password, deviceInfo, fingerPrint } = credentials as any;
+        const url = process.env.NEXT_PUBLIC_READSENSE_API_URL+"/api/Users/authenticate"
+        const response = await fetch(url, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ username, password })
+          body: JSON.stringify({ username, password, deviceInfo, fingerPrint })
         });
         
         const user = await response.json();
-        console.log(user);
+
         if(response.ok && user) {
           return user;
         } else {
@@ -41,12 +41,29 @@ export const authOptions : NextAuthOptions = {
     strategy: "jwt",
   },
   callbacks: {
+    async signIn({ user, account, profile, email, credentials }) {
+      const isAllowedToSignIn = true
+      if (isAllowedToSignIn) {
+        return true
+      } else {
+        // Return false to display a default error message
+        return false
+        // Or you can return a URL to redirect to:
+        // return '/unauthorized'
+      }
+    },
     async jwt({ token, user }) {
-      return { ...token, ...user };
+      if (user) {
+        return { ...token, ...user };
+      }
+      return token;
     },
     async session({ session, token, user }) {
       // Send properties to the client, like an access_token from a provider.
-      session.user = token;
+      session.accessToken = token.accessToken
+      session.user.id = token.id
+      session.user.email = token.userName
+      session.user.agreementSigned = token.agreementSigned
 
       return session;
     },

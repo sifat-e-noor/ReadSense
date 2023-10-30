@@ -2,5 +2,7 @@ export interface User {
     name?: string | null | undefined;
     role?: string;
     userName?: string;
-    accessToken?: string;
+    email?: string;
+    id?: string;
+    agreementSigned: boolean;
   }

@@ -1,4 +1,4 @@
-﻿using ReadSenseApi.Entities;
+﻿using ReadSenseApi.Database.Entities;
 using ReadSenseApi.Models;
 
 namespace ReadSenseApi.Services
@@ -8,5 +8,6 @@ namespace ReadSenseApi.Services
         AuthenticateResponse? Authenticate(AuthenticateRequest model);
         IEnumerable<User> GetAll();
         User? GetById(int id);
+        void UpdateAgreementSigned(User user, bool agreementSigned);
     }
 }
