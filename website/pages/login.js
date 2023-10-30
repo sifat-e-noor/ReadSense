@@ -118,13 +118,12 @@ export default function Home() {
               sizes="100vw"
               style={{ width: 'auto', height: 'auto'}} // optional
               />
-          </div>
-          <div className={landing.columnRightLower}>
             <form onSubmit={onSubmit}>
               <BasicTextFields setCurrentValue = {handleUsernameChange} inputProps={inputProps} />    
               <Button type="submit"  variant="contained" sx= {{width: '238px'}} className={styles.buttonFilled}>Remember me</Button> 
             </form>
           </div>
+
           <div className={landing.columnRightLower}>
               {/* <BasicTextFields setCurrentValue = {handleUsernameChange} />    
               <Button onClick={onSubmit}  variant="contained" sx= {{width: '238px'}} className={styles.buttonFilled}>Remember me</Button>  */}
