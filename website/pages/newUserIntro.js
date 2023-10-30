@@ -24,7 +24,7 @@ export default function Introduction() {
       event.preventDefault();
       let res = undefined;
       try {
-        res = await fetch('http://localhost:5298/api/users/agreement', {
+        res = await fetch(process.env.NEXT_PUBLIC_READSENSE_API_URL+'/api/users/agreement', {
           body: JSON.stringify({
             agreementSigned: true,
           }),

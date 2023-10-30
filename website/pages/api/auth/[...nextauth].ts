@@ -19,8 +19,8 @@ export const authOptions : NextAuthOptions = {
       },
       async authorize(credentials, req) {
         const { username, password, deviceInfo, fingerPrint } = credentials as any;
-        
-        const response = await fetch("http://localhost:5298/api/Users/authenticate", {
+        const url = process.env.NEXT_PUBLIC_READSENSE_API_URL+"/api/Users/authenticate"
+        const response = await fetch(url, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ username, password, deviceInfo, fingerPrint })

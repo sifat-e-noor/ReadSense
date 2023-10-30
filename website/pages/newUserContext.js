@@ -36,7 +36,7 @@ export default function newUserContext() {
     notify("info", "We are saving your environment details.....");
     let res = undefined;
     try {
-      res = await fetch('http://localhost:5298/api/environment', {
+      res = await fetch(process.env.NEXT_PUBLIC_READSENSE_API_URL+'/api/environment', {
         body: JSON.stringify({
           placeState,timeOfDay,brightnessLevel
         }),

@@ -30,7 +30,7 @@ export default function Landing() {
   const getUserAgreement = async (id) => {
     let response = undefined;
     try {
-      response = await fetch("http://localhost:5298/api/users/"+id, {
+      response = await fetch(process.env.NEXT_PUBLIC_READSENSE_API_URL+"/api/users/"+id, {
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + session.accessToken,
