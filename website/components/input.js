@@ -7,7 +7,12 @@ const Input = React.forwardRef(function CustomInput(props, ref) {
 });
 
 export default function UnstyledInputIntroduction(props) {
-  return <Input aria-label="Demo input" type={props.type} />;
+
+  const applyValueChange = (event) => {
+    props.changeHandler(event.target.value);
+  }
+
+  return <Input  type={props.type} value={props.value} onChange={applyValueChange} />;
 }
 
 const blue = {

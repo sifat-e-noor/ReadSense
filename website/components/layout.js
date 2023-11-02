@@ -11,12 +11,8 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import CssBaseline from '@mui/material/CssBaseline';
 import useScrollTrigger from '@mui/material/useScrollTrigger';
-import Box from '@mui/material/Box';
-import Container from '@mui/material/Container';
 import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
 import { Add , AddRounded, ArrowBackIosNewRounded, BackHandRounded, RemoveRounded} from '@mui/icons-material';
-import BasicTextFields from '../components/textfield';
 import NumberInput from './NumberInput';
 import CustomRadioChip from './CustomRadioChip';
 import Input from './input';
@@ -28,6 +24,8 @@ import FormatAlignJustifyIcon from '@mui/icons-material/FormatAlignJustify';
 import ViewWeekOutlinedIcon from '@mui/icons-material/ViewWeekOutlined';
 import TableRowsOutlinedIcon from '@mui/icons-material/TableRowsOutlined';
 import ToggleButton from '@mui/material/ToggleButton';
+import { getFontSize, setFontSize, getFonts, setFonts, getLineHeight, setLineHeight, getLineSpacing, setLineSpacing, getAlign, setAlign, getLayout, setLayout } from  "../redux/readerSlice";
+import{useSelector, useDispatch}from  "react-redux";
 
 // const name = 'Sifat-E-Noor';
 export const siteTitle = 'ReadSense - Personalized Reading Experience App ';
@@ -57,16 +55,88 @@ ElevationScroll.propTypes = {
   window: PropTypes.func,
 };
 
+const CustomTextInputForNumber = (props) => {
+  const [inputValue, setInputValue] = React.useState(props.value);
+  
+  React.useEffect(() => {
+    const handler = setTimeout(() => {
+      if (typeof props.changeHandler === 'function') {
+        
+        var value = undefined;
+        if (props.type === 'int') {
+          value = parseInt(inputValue);
+        } else if (props.type === 'float') {
+          value = parseFloat(inputValue);
+        } else {
+          value = inputValue;
+        }
+        if (isNaN(value) || value < props.min || value > props.max || value === props.value) {
+          setInputValue(props.value);
+          return;
+        }
+        if (props.type === 'float') {
+          var multiplier = Math.pow(10, 1);
+          value =  (Math.round(value * multiplier) / multiplier).toFixed(1);
+        }
+        if(props.value == value) {
+          setInputValue(value);
+        } else {
+          props.changeHandler(value);
+        }
+      }
+    }, 1000);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [inputValue, props.changeHandler]);
+
+  React.useEffect(() => {
+    setInputValue(props.value);
+  }, [props.value]);
+
+  return (
+    <Input type="text" value={inputValue} changeHandler={setInputValue}/>
+  )
+}
 
 export default function Layout(props) {
-
   const router = useRouter();
+  const dispatch = useDispatch();
+  const  fontSize = useSelector(getFontSize);
+  const  fonts = useSelector(getFonts);
+  const  lineHeight = useSelector(getLineHeight);
+  const  lineSpacing = useSelector(getLineSpacing);
+  const  alignment = useSelector(getAlign);
+  const  layout = useSelector(getLayout);
 
   const handleBackButtonClick = () => {
     router.push('/existingUserPickStory');
   };
 
-  const [fonttype, setFonttype] = React.useState(undefined);
+  const handleFontSizeChange = (data) => {
+    dispatch(setFontSize(data));
+  };
+
+  const setFonttype = (data) => {
+    dispatch(setFonts(data));
+  }
+
+  const handleLineHeightChange = (data) => {
+    dispatch(setLineHeight(data));
+  }
+
+  const handleLineSpacingChange = (data) => {
+    dispatch(setLineSpacing(data));
+  }
+
+  const handleAlignmentChange = (data) => {
+    dispatch(setAlign(data));
+  }
+
+  const handleLayoutChange = (data) => {
+    dispatch(setLayout(data));
+  }
 
   const fonttypekRadioButtonFields = [
     { label: 'Sans-serif', value: 'sans-serif' },
@@ -113,7 +183,7 @@ export default function Layout(props) {
                   <Stack spacing={3} direction="row" useFlexGap flexWrap="wrap" justifyContent='center' alignItems='center'>
                     <Stack spacing={.5} direction="column">
                       {/* <Stack spacing={2} direction="row"> */}
-                        <NumberInput />      
+                        <NumberInput min="8" max={96} value={fontSize} changeHandler={handleFontSizeChange} />      
                       {/* </Stack> */}
                       <Typography variant="h6" component='div' className={styles.HeaderLabel}>Font size</Typography>
                     </Stack>
@@ -121,7 +191,7 @@ export default function Layout(props) {
                       <Stack spacing={.5} direction="row">
                         <CustomRadioChip 
                           handleClick = {setFonttype}
-                          selected = {fonttype}
+                          selected = {fonts}
                           fields = {fonttypekRadioButtonFields}
                         />
                       </Stack>
@@ -136,7 +206,7 @@ export default function Layout(props) {
                         sizes="100vw"
                         style={{ width: '28px', height: '30px' }} // optional
                         />
-                        <Input type="text"/>
+                        <CustomTextInputForNumber type="float" min={.01} max={10} value={lineSpacing} changeHandler={handleLineSpacingChange} />
                       </Stack>
                       <Typography variant="h6" component='div' className={styles.HeaderLabel}>Letter spacing</Typography>
                     </Stack>
@@ -149,13 +219,13 @@ export default function Layout(props) {
                         sizes="100vw"
                         style={{ width: '28px', height: '30px' }} // optional
                         />
-                        <Input type="text"/>
+                        <CustomTextInputForNumber type="float" min={10} max={50} value={lineHeight} changeHandler={handleLineHeightChange} />
                       </Stack>
                       <Typography variant="h6" component='div' className={styles.HeaderLabel}>Line height</Typography>
                     </Stack>
                     <Stack spacing={.5} direction="column">
                       <Stack spacing={1} direction="row" alignItems={'center'}>
-                        < AlignmentToggle>
+                        < AlignmentToggle defaultValue={layout} handleChange={handleLayoutChange}>
                           <ToggleButton value="column" aria-label="column text">
                             <ViewWeekOutlinedIcon />
                           </ToggleButton>
@@ -168,7 +238,7 @@ export default function Layout(props) {
                     </Stack>
                     <Stack spacing={.5} direction="column">
                       <Stack spacing={1} direction="row" alignItems={'center'}>
-                      < AlignmentToggle>
+                      < AlignmentToggle defaultValue={alignment} handleChange={handleAlignmentChange}>
                           <ToggleButton value="left" aria-label="left aligned">
                             <FormatAlignLeftIcon />
                           </ToggleButton>
