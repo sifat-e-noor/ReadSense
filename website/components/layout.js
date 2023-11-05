@@ -183,7 +183,7 @@ export default function Layout(props) {
                   <Stack spacing={3} direction="row" useFlexGap flexWrap="wrap" justifyContent='center' alignItems='center'>
                     <Stack spacing={.5} direction="column">
                       {/* <Stack spacing={2} direction="row"> */}
-                        <NumberInput min="8" max={96} value={fontSize} changeHandler={handleFontSizeChange} />      
+                        <NumberInput min={8} max={96} value={fontSize} changeHandler={handleFontSizeChange} />      
                       {/* </Stack> */}
                       <Typography variant="h6" component='div' className={styles.HeaderLabel}>Font size</Typography>
                     </Stack>
