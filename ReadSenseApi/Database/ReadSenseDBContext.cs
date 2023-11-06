@@ -12,6 +12,7 @@ namespace ReadSenseApi.Database
         public DbSet<Entities.User> Users { get; set; }
         public DbSet<Entities.Device> Devices { get; set; }
         public DbSet<Entities.Environment> Environments { get; set; }
+        public DbSet<Entities.ReadSettingsEvent> ReadSettingsEvents { get; set; }
 
     }
 }

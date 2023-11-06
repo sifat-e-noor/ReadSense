@@ -35,7 +35,7 @@ namespace ReadSenseApi.Services
 
         public Database.Entities.Environment? GetByDeviceIdAndUserId(int deviceId, int userId)
         {
-            return _context.Environments.FirstOrDefault(x => x.DeviceId == deviceId && x.UserId == userId);
+            return _context.Environments.OrderByDescending(x => x.Id).FirstOrDefault(x => x.DeviceId == deviceId && x.UserId == userId);
         }
 
         // Environment insert method
