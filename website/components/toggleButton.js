@@ -1,29 +1,16 @@
 import * as React from 'react';
-import FormatAlignLeftIcon from '@mui/icons-material/FormatAlignLeft';
-import FormatAlignCenterIcon from '@mui/icons-material/FormatAlignCenter';
-import FormatAlignRightIcon from '@mui/icons-material/FormatAlignRight';
-import LaptopIcon from '@mui/icons-material/Laptop';
-import TvIcon from '@mui/icons-material/Tv';
-import PhoneAndroidIcon from '@mui/icons-material/PhoneAndroid';
 import Stack from '@mui/material/Stack';
-import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 
 export default function ToggleButtonNotEmpty(props) {
-  const [alignment, setAlignment] = React.useState('left');
-  const [devices, setDevices] = React.useState(() => ['phone']);
+  const [alignment, setAlignment] = React.useState(props.defaultValue);
 
   const handleAlignment = (event, newAlignment) => {
     if (newAlignment !== null) {
       setAlignment(newAlignment);
+      props.handleChange(newAlignment);
     }
   };
-
-//   const handleDevices = (event, newDevices) => {
-//     if (newDevices.length) {
-//       setDevices(newDevices);
-//     }
-//   };
 
   return (
     <Stack direction="row" spacing={4}>

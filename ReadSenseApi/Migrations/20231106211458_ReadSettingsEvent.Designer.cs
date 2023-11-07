@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ReadSenseApi.Database;
 
@@ -11,9 +12,11 @@ using ReadSenseApi.Database;
 namespace ReadSenseApi.Migrations
 {
     [DbContext(typeof(ReadSenseDBContext))]
-    partial class ReadSenseDBContextModelSnapshot : ModelSnapshot
+    [Migration("20231106211458_ReadSettingsEvent")]
+    partial class ReadSettingsEvent
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -115,12 +118,6 @@ namespace ReadSenseApi.Migrations
 
                     b.Property<string>("Fonts")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTimeOffset?>("Inserted")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<DateTimeOffset?>("LastUpdated")
-                        .HasColumnType("datetimeoffset");
 
                     b.Property<string>("Layout")
                         .HasColumnType("nvarchar(max)");
