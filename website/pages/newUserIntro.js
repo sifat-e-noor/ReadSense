@@ -11,10 +11,12 @@ import Image from 'next/image';
 import { useSession } from "next-auth/react";
 import toast from "../components/Toast";
 import { useRouter } from "next/router";
+import DisagreeModal from '../components/disagreeModal';
 
 export default function Introduction() {
     const { data: session } = useSession();
     const router = useRouter();
+    const [showModal, setShowModal] = React.useState(false);
 
     const notify = React.useCallback((type, message) => {
       toast({ type, message });
@@ -57,6 +59,24 @@ export default function Introduction() {
       }
     }
 
+    // if Showmodal is true make it false after 5 seconds
+    React.useEffect(() => {
+      if(showModal){
+        const handle = setTimeout(() => {
+          setShowModal(false);
+        }, 5000); // Change this to the number of seconds you want the modal to stay open
+
+        return () => {
+          clearTimeout(handle);
+        };
+      }
+    },[showModal]);
+
+    const handleModalOpen = () => {
+      setShowModal(true);
+ // Change this to the number of seconds you want the modal to stay open
+    };
+
     return (
       <>
         <div className={newuserintro.container} >
@@ -92,12 +112,13 @@ export default function Introduction() {
             <div className={newuserintro.columnRightLower}>   
             <Stack spacing={2} direction="row">
                 {/* <Button variant="text">Text</Button> */}
-                <Button variant="outlined" className={styles.buttonOutline}>No, I don't</Button>
+                <Button variant="outlined" className={styles.buttonOutline} onClick={handleModalOpen}>No, I don't</Button>
                 <Button variant="contained" className={styles.buttonFilled} onClick={handleAggreed}>Yes, I agree</Button>
             </Stack>
             </div>
           </div>
         </div>
+        <DisagreeModal isVisible={showModal} />
      </>
     );
   }
