@@ -41,12 +41,12 @@ export default function newUserPickStory() {
     { bookId: 4, src: "/images/The_Catcher_in_the_Rye.jpg", content: "/books/TheCatcherintheRye.html" },
     { bookId: 5, src: "/images/Totto-Chan.jpg", content: "/books/TottoChan.html" },
     { bookId: 6, src: "/images/1984.jpg", content: "/books/1984.html" },
-    { bookId: 7, src: "/images/LittleWomen.jpg", content: "/books/LittleWomen.html" },
+    { bookId: 7, src: "/images/LittleWomen.jpg", content: "/books/LittleWoman.html" },
     { bookId: 8, src: "/images/GreatExpectations.jpg", content: "/books/GreatExpectations.html" },
     { bookId: 9, src: "/images/OfMiceandMen.jpg", content: "/books/OfMiceandMen.html" },
     { bookId: 10, src: "/images/InterpreterofMaladies.jpg", content: "/books/InterpreterofMaladies.html" },
     { bookId: 11, src: "/images/RobinsonCrusoe.jpg", content: "/books/RobinsonCrusoe.html" },
-    { bookId: 12, src: "/images/Gulliverstravel.jpg", content: "/books/Gulliverstravels.html" },
+    { bookId: 12, src: "/images/Gulliverstravel.jpg", content: "/books/GulivarsTravel.html" },
   ]
 
   return (
