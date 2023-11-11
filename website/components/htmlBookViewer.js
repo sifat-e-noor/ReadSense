@@ -1,8 +1,8 @@
 // components/BookViewer.js
 "use client";
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { getFontSize, getFonts,  getLineHeight,  getLineSpacing,  getAlign,  getLayout,  } from  "../redux/readerSlice";
-import { setScrollEvent, setScrollTrackingData } from  "../redux/readerTrackingSlice";
+import { setScrollEvent, setScrollTrackingData, setBookPTagOffset } from  "../redux/readerTrackingSlice";
 import{ useSelector, useDispatch }from  "react-redux";
 
 const HTMLViewer = (props) => {
@@ -14,6 +14,7 @@ const HTMLViewer = (props) => {
   const  alignment = useSelector(getAlign);
   const  layout = useSelector(getLayout);
   const  dispatch = useDispatch();
+  const bookViewerRef = useRef();
   
   console.log('inside reading state')
   console.log(props);
@@ -54,8 +55,19 @@ const HTMLViewer = (props) => {
     };
   }, []);
 
+  useEffect(() => {
+    // set the scroll position to the last saved position
+    if(htmlContent !== ''){
+      let pTagOffsets = []
+      bookViewerRef.current.querySelectorAll('p').forEach((p,index) => {
+        pTagOffsets.push(p.offsetTop)
+      });
+      dispatch(setBookPTagOffset(pTagOffsets));
+    }
+  },[htmlContent]);
+
   return (
-    <div
+    <div ref={bookViewerRef}
       style={{
         fontFamily: fonts,
         fontSize: fontSize+'px',

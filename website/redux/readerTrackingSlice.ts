@@ -11,13 +11,25 @@ export interface ReaderTrackingState {
         end: number,
         startScrollY: number,
         endScrollY: number,
+        startPTagIndex?: number,
+        endPTagIndex?: number,
     }[];
+    bookPTagOffset: number[];
 }
 
 const initialState: ReaderTrackingState = {
     scrollEvent: [],
     scrollTrackingData: [],
+    bookPTagOffset: [],
 };
+
+const getPTagIndex = (scrollY: number, bookPTagOffset: number[]) => {
+    let index = 0;
+    while(index < bookPTagOffset.length && scrollY > bookPTagOffset[index]) {
+        index++;
+    }
+    return index;
+}
 
 export const readerTrackingSlice = createSlice({
     name: "readerTracking",
@@ -49,6 +61,8 @@ export const readerTrackingSlice = createSlice({
                             end,
                             startScrollY,
                             endScrollY,
+                            startPTagIndex: getPTagIndex(startScrollY, state.bookPTagOffset),
+                            endPTagIndex: getPTagIndex(endScrollY, state.bookPTagOffset),
                         });
                         start = end;
                         startScrollY = endScrollY;
@@ -57,12 +71,16 @@ export const readerTrackingSlice = createSlice({
                 }
             }
         },
+        setBookPTagOffset(state, action) {
+            state.bookPTagOffset = action.payload ;
+        },
     },
 });
 
-export const { setScrollEvent, setScrollTrackingData } = readerTrackingSlice.actions;
+export const { setScrollEvent, setScrollTrackingData, setBookPTagOffset } = readerTrackingSlice.actions;
 
 export const selectScrollEvent = (state: AppState) => state.readerTracking.scrollEvent;
 export const selectScrollTrackingData = (state: AppState) => state.readerTracking.scrollTrackingData;
+export const selectBookPTagOffset = (state: AppState) => state.readerTracking.bookPTagOffset;
 
 export default readerTrackingSlice.reducer;
