@@ -11,14 +11,9 @@ namespace ReadSenseApi.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class EnvironmentController : ControllerBase
+    public class EnvironmentController(IEnvironmentService environmentService) : ControllerBase
     {
-        public readonly IEnvironmentService _environmentService;
-
-        public EnvironmentController(IEnvironmentService environmentService)
-        {
-            _environmentService = environmentService;
-        }
+        public readonly IEnvironmentService _environmentService = environmentService;
 
         // GET: api/<EnvironmentController>
         [HttpGet]

@@ -1,5 +1,6 @@
 ﻿using Microsoft.IdentityModel.Tokens;
 using ReadSenseApi.Database;
+using ReadSenseApi.Database.Entities;
 using ReadSenseApi.Models;
 
 namespace ReadSenseApi.Services
@@ -33,13 +34,13 @@ namespace ReadSenseApi.Services
             return readSettingsEvent;
         }
 
-        public int Insert(int userId, int deviceId, List<ReadSettingsEventRequest> readSettingsEventRequests)
+        public ReadSettingsEvent Insert(int userId, int deviceId, List<ReadSettingsEventRequest> readSettingsEventRequests)
         {
             var environment = _environmentService.GetByDeviceIdAndUserId(deviceId, userId) ?? throw new Exception("Environment not found");
-
+            var readSettingsEvents = new List<Database.Entities.ReadSettingsEvent>();
             foreach (var readSettingsEventRequest in readSettingsEventRequests)
             {
-                var readSettingsEvent = new Database.Entities.ReadSettingsEvent
+                readSettingsEvents.Add( new Database.Entities.ReadSettingsEvent
                 {
                     UserId = userId,
                     DeviceId = deviceId,
@@ -53,12 +54,13 @@ namespace ReadSenseApi.Services
                     Layout = readSettingsEventRequest.Layout?.ToJsonString(),
                     BookInfo = readSettingsEventRequest.BookInfo?.ToJsonString(),
                     Inserted = DateTime.Now.ToUniversalTime(),
-                };
-
-                _context.ReadSettingsEvents.Add(readSettingsEvent);
+                });
             }
 
-            return _context.SaveChanges();
+            _context.ReadSettingsEvents.AddRange(readSettingsEvents);
+            _context.SaveChanges();
+
+            return readSettingsEvents.Last();
 
         }
 

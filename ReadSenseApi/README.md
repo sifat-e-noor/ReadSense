@@ -17,8 +17,10 @@ An Asp.Net 8 Web API for ReadSense application.
 	docker compose -f Docker-Compose/docker-compose-sql-2022.yml up -d
 	```
 
-2. Open the solution file `ReadSenseApi.sln` in Visual Studio 2022 Preview. And run the project.
-3. When you are done with the development, stop the MSSQL server by running the below command from ReadSenseApi directory.
+2. Open the solution file `ReadSenseApi.sln` in Visual Studio 2022 Preview. 
+3. Update `Database Connection String`, `Secret` and `ClientUrl` in [appsettings.json](./appsettings.json) 
+4. Run the application from Visual Studio 2022 Preview.
+5. When you are done with the development, stop the MSSQL server by running the below command from ReadSenseApi directory.
 	```sh
 	docker compose -f Docker-Compose/docker-compose-sql-2022.yml down
 	```

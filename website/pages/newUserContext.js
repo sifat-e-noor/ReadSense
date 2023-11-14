@@ -9,13 +9,23 @@ import CustomRadioChip from '../components/CustomRadioChip';
 import { useSession } from "next-auth/react";
 import toast from "../components/Toast";
 import { useRouter } from "next/router";
+import { setEnvironmentId } from '../redux/readerSlice';
+import { setAccessToken } from '../redux/sessionSlice';
+import { useDispatch } from 'react-redux';
 
 export default function newUserContext() {
   const [place, setPlace] = React.useState(undefined);
-  const [time, setTime] = React.useState(undefined);
+  const [location, setLocation] = React.useState(undefined);
   const [brightness, setBrightness] = React.useState(undefined);
   const router = useRouter();
   const { data: session } = useSession();
+  const dispatch = useDispatch();
+
+  React.useEffect(() => {
+    if (session) {
+      dispatch(setAccessToken(session.accessToken));
+    }
+  }, [session]);
 
   const notify = React.useCallback((type, message) => {
     toast({ type, message });
@@ -26,19 +36,19 @@ export default function newUserContext() {
   }, []);
 
   React.useEffect(() => {
-    if (place && time && brightness) {
-      console.log('place, time, brightness', place, time, brightness);
-      handleAggreed({placeState:place,timeOfDay:time,brightnessLevel:brightness});
+    if (place && location && brightness) {
+      console.log('place, location, brightness', place, location, brightness);
+      handleAggreed({placeState:place,location:location,brightnessLevel:brightness});
     }
-  }, [ place, time, brightness ]);
+  }, [ place, location, brightness ]);
 
-  const handleAggreed = async ({placeState,timeOfDay,brightnessLevel}) => {
+  const handleAggreed = async ({placeState,location,brightnessLevel}) => {
     notify("info", "We are saving your environment details.....");
     let res = undefined;
     try {
       res = await fetch(process.env.NEXT_PUBLIC_READSENSE_API_URL+'/api/environment', {
         body: JSON.stringify({
-          placeState,timeOfDay,brightnessLevel
+          placeState,location,brightnessLevel
         }),
         headers: {
           'Content-Type': 'application/json',
@@ -55,7 +65,11 @@ export default function newUserContext() {
     if (res?.status === 200) {
       dismiss();
       notify("success", "Environment details saved successfully.");
-      router.push('/existingUserPickStory');
+      res.json().then((data) => {
+        dispatch(setEnvironmentId(data.id));
+        router.push('/existingUserPickStory');
+      })
+      
     } else {
       res?.json().then((data) => {
         dismiss();
@@ -76,11 +90,10 @@ export default function newUserContext() {
     { label: 'A chaotic place', value: 'Chaotic' },
   ];
   
-  const timeRadioButtonFields = [
-    { label: 'Morning', value: 'Morning' },
-    { label: 'Day', value: 'Day' },
-    { label: 'Evening', value: 'Evening' },
-    { label: 'Night', value: 'Night' },
+  const youAreRadioButtonFields = [
+    { label: 'At Home', value: 'Home' },
+    { label: 'In Transportation', value: 'Transport' },
+    { label: 'Outside', value: 'Outside' },
   ];
 
   const brightnessRadioButtonFields = [
@@ -123,7 +136,7 @@ export default function newUserContext() {
             <div className={newusercontext.columnRightLowerLeft}>
               <Stack spacing={6.2} direction="column" className={utilStyles.headingMd}>
                 <Typography>You are in ......</Typography>
-                <p>It’s a time of..</p>
+                <p>You are...</p>
                 <p>Environment light..</p>
               </Stack>
             </div>
@@ -139,9 +152,9 @@ export default function newUserContext() {
                 <p style={{color:'gray', textAlign:'start', fontStyle: 'italic', fontSize:'.8rem', margin: '0px'}}>choose any</p>
                 <Stack spacing={2} direction="row" className={utilStyles.headingMd}> 
                   <CustomRadioChip
-                    handleClick = {setTime}
-                    selected = {time}
-                    fields = {timeRadioButtonFields}
+                    handleClick = {setLocation}
+                    selected = {location}
+                    fields = {youAreRadioButtonFields}
                   />
                 </Stack>
                 <p style={{color:'gray', textAlign:'start', fontStyle: 'italic', fontSize:'.8rem', margin: '0px'}}>choose any</p>

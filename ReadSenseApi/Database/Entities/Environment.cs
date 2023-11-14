@@ -13,12 +13,11 @@ namespace ReadSenseApi.Database.Entities
             Chaotic
         }
 
-        public enum TimeOfDayEnum
+        public enum LocationEnum
         {
-            Morning,
-            Day,
-            Evening,
-            Night
+            Home,
+            Transport,
+            Outside
         }
 
         public enum Brightness
@@ -55,7 +54,7 @@ namespace ReadSenseApi.Database.Entities
         /// The time of day when the environment is being monitored.
         /// Possible values are Morning, Day, Evening, or Night.
         /// </summary>
-        public TimeOfDayEnum? TimeOfDay { get; set; }
+        public LocationEnum? Location { get; set; }
 
         /// <summary>
         /// The brightness level of the environment.

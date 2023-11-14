@@ -9,27 +9,21 @@ namespace ReadSenseApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ReadSettingsController : ControllerBase
+    public class ReadSettingsController(IReadSettingsService readSettingsService) : ControllerBase
     {
-        private readonly IReadSettingsService _readSettingsService;
-
-        public ReadSettingsController(IReadSettingsService readSettingsService)
-        {
-            _readSettingsService = readSettingsService;
-        }
 
         // GET: api/<ReadSettingsController>
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(_readSettingsService.GetAll());
+            return Ok(readSettingsService.GetAll());
         }
 
         // GET api/<ReadSettingsController>/5
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            return _readSettingsService.GetById(id) == null ? NotFound() : Ok(_readSettingsService.GetById(id));
+            return readSettingsService.GetById(id) == null ? NotFound() : Ok(readSettingsService.GetById(id));
         }
 
         // POST api/<ReadSettingsController>
@@ -52,7 +46,7 @@ namespace ReadSenseApi.Controllers
 
             User user = (User)userObj;
 
-            int state =  _readSettingsService.Insert(user.Id, (int)deviceId, readSettingsEventRequests);
+            var state =  readSettingsService.Insert(user.Id, (int)deviceId, readSettingsEventRequests);
             return Ok(state);
         }
 

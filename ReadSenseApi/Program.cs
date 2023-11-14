@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -6,6 +7,7 @@ using ReadSenseApi.Authorization;
 using ReadSenseApi.Database;
 using ReadSenseApi.Helpers;
 using ReadSenseApi.Services;
+using ReadSenseApi.SignalRHubs;
 using System.Text;
 using System.Text.Json.Serialization;
 
@@ -68,6 +70,8 @@ builder.Services.AddScoped<IJwtUtils, JwtUtils>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IEnvironmentService, EnvironmentService>();
 builder.Services.AddScoped<IReadSettingsService, ReadSettingsService>();
+builder.Services.AddScoped<IBookService, BookService>();
+builder.Services.AddScoped<IScrollingEventService, ScrollingEventService>();
 
 builder.Services.AddAuthorization();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
@@ -81,7 +85,37 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
         ValidateLifetime = true,
         ClockSkew = TimeSpan.Zero
     };
+
+    // Sending the access token in the query string is required when using WebSockets or ServerSentEvents
+    // due to a limitation in Browser APIs. We restrict it to only calls to the
+    // SignalR hub in this code.
+    // See https://docs.microsoft.com/aspnet/core/signalr/security#access-token-logging
+    // for more information about security considerations when using
+    // the query string to transmit the access token.
+    options.Events = new JwtBearerEvents
+    {
+        OnMessageReceived = context =>
+        {
+            var accessToken = context.Request.Query["access_token"];
+
+            // If the request is for our hub...
+            var path = context.HttpContext.Request.Path;
+            if (!string.IsNullOrEmpty(accessToken) &&
+                (path.StartsWithSegments("/hub")))
+            {
+                // Read the token out of the query string
+                context.Token = accessToken;
+            }
+            return Task.CompletedTask;
+        }
+    };
 });
+
+builder.Services.AddSignalR(options =>
+{
+    options.EnableDetailedErrors = true;
+});
+builder.Services.AddSingleton<IUserIdProvider, EmailBasedUserIdProvider>();
 
 var app = builder.Build();
 
@@ -94,10 +128,12 @@ using (var scope = app.Services.CreateScope())
 }
 
 // global cors policy
-app.UseCors(x => x
-    .AllowAnyOrigin()
-    .AllowAnyMethod()
-    .AllowAnyHeader());
+var clientUrl = app.Configuration["AppSettings:ClientUrl"] ?? throw new Exception("Client URL is null");
+app.UseCors(x =>x.WithOrigins(clientUrl)
+     .AllowAnyMethod()
+     .AllowAnyHeader()
+     .AllowCredentials());
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -112,6 +148,7 @@ app.UseMiddleware<JwtMiddleware>();
 app.UseAuthentication();
 app.UseAuthorization();
 
+app.MapHub<ScrollEventHub>("/hub");
 app.MapControllers();
 
 // default page
