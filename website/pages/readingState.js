@@ -3,7 +3,7 @@ import Layout, { siteTitle } from '../components/layout';
 import utilStyles from '../styles/utils.module.css';
 import HTMLViewer from '../components/htmlBookViewer';
 import { useRouter } from 'next/router';
-import { getFontSize, getFonts, getLineHeight, getLineSpacing, getAlign, getLayout, getLastStableSettings, setLastStableSettings } from  "../redux/readerSlice";
+import { getFontSize, getFonts, getLineHeight, getLineSpacing, getAlign, getLayout, getLastStableSettings, setLastStableSettings, setBookId, setReadSettingsEventId } from  "../redux/readerSlice";
 import{useSelector, useDispatch}from  "react-redux";
 import { useEffect, useState } from 'react';
 import FeedBackModal from '../components/FeedBackModal';
@@ -11,7 +11,7 @@ import { useSession } from "next-auth/react";
 
 export default function ReadingState(props) {
   const router = useRouter();
-  const { bookContent } = router.query;
+  const { bookContent, bookId, pTagIndex } = router.query;
   const fontSize = useSelector(getFontSize);
   const fonts = useSelector(getFonts);
   const lineHeight = useSelector(getLineHeight);
@@ -25,6 +25,12 @@ export default function ReadingState(props) {
   const [settingsApplyTime, setSettingsApplyTime] = useState(new Date().toUTCString()); // time when settings were applied
   const [userInput, setUserInput] = useState({});
   const { data: session } = useSession();
+
+
+  // set the book id in the redux store
+  useEffect(() => {
+    dispatch(setBookId(Number(bookId)));
+  }, [bookId]);
 
   // track changes in settings and show feedback modal
   useEffect(() => {
@@ -63,7 +69,7 @@ export default function ReadingState(props) {
     }
   },[fontSize,fonts,lineHeight,lineSpacing,align,layout]);
 
-  // on user input change, submit new userinput to backend
+  // on user input change, submit new userinput(ReadSettings) to backend
   useEffect(() => {
     const submitFeedback = async () => {
       let res = undefined;
@@ -82,6 +88,9 @@ export default function ReadingState(props) {
       
       if (res?.status === 200) {
         setUserInput({});
+        res.json().then((data) => {
+          dispatch(setReadSettingsEventId(data.id));
+        })
       }
     }
 
@@ -102,7 +111,7 @@ export default function ReadingState(props) {
       </Head>
       <section className={utilStyles.bookText}>
         <div>
-          <HTMLViewer src={bookContent} />
+          <HTMLViewer src={bookContent} pTagIndex={pTagIndex} />
         </div>
       </section>
       <FeedBackModal isVisible={getFeedBack} handleClose={setFeedBack} settingsDiff={settingsDiff} settingsChangeTime={settingsApplyTime} handleSubmit={handleUserInput} />

@@ -69,15 +69,21 @@ export const readerTrackingSlice = createSlice({
                         direction *= -1;
                     }
                 }
+                console.log("scrollTrackingData:", state.scrollTrackingData);
             }
         },
         setBookPTagOffset(state, action) {
             state.bookPTagOffset = action.payload ;
         },
+        sendScrollTrackingData(state, action) {
+        },
+        clearScrollTrackingData(state, action) {
+            state.scrollTrackingData = [...state.scrollTrackingData.slice(action.payload.length)];
+        }
     },
 });
 
-export const { setScrollEvent, setScrollTrackingData, setBookPTagOffset } = readerTrackingSlice.actions;
+export const { setScrollEvent, setScrollTrackingData, setBookPTagOffset, sendScrollTrackingData, clearScrollTrackingData } = readerTrackingSlice.actions;
 
 export const selectScrollEvent = (state: AppState) => state.readerTracking.scrollEvent;
 export const selectScrollTrackingData = (state: AppState) => state.readerTracking.scrollTrackingData;

@@ -4,38 +4,31 @@ using ReadSenseApi.Models;
 
 namespace ReadSenseApi.Services
 {
-    public class EnvironmentService : IEnvironmentService
+    public class EnvironmentService(ReadSenseDBContext context) : IEnvironmentService
     {
-        private readonly ReadSenseDBContext _context;
-
-        public EnvironmentService(ReadSenseDBContext context)
-        {
-            _context = context;
-        }
-
         public IEnumerable<Database.Entities.Environment> GetAll()
         {
-            return _context.Environments.IsNullOrEmpty() ? new List<Database.Entities.Environment>() : _context.Environments;
+            return context.Environments.IsNullOrEmpty() ? new List<Database.Entities.Environment>() : context.Environments;
         }
 
         public Database.Entities.Environment? GetById(int id)
         {
-            return _context.Environments.FirstOrDefault(x => x.Id == id);
+            return context.Environments.FirstOrDefault(x => x.Id == id);
         }
 
         public Database.Entities.Environment? GetByUserId(int userId)
         {
-            return _context.Environments.FirstOrDefault(x => x.UserId == userId);
+            return context.Environments.FirstOrDefault(x => x.UserId == userId);
         }
 
         public Database.Entities.Environment? GetByDeviceId(int deviceId)
         {
-            return _context.Environments.FirstOrDefault(x => x.DeviceId == deviceId);
+            return context.Environments.FirstOrDefault(x => x.DeviceId == deviceId);
         }
 
         public Database.Entities.Environment? GetByDeviceIdAndUserId(int deviceId, int userId)
         {
-            return _context.Environments.OrderByDescending(x => x.Id).FirstOrDefault(x => x.DeviceId == deviceId && x.UserId == userId);
+            return context.Environments.OrderByDescending(x => x.Id).FirstOrDefault(x => x.DeviceId == deviceId && x.UserId == userId);
         }
 
         // Environment insert method
@@ -46,13 +39,13 @@ namespace ReadSenseApi.Services
                 UserId = userId,
                 DeviceId = deviceId,
                 PlaceState = environmentRequest.PlaceState,
-                TimeOfDay = environmentRequest.TimeOfDay,
+                Location = environmentRequest.Location,
                 BrightnessLevel = environmentRequest.BrightnessLevel,
                 Inserted = DateTime.Now.ToUniversalTime(),
             };
 
-            _context.Environments.Add(environment);
-            _context.SaveChanges();
+            context.Environments.Add(environment);
+            context.SaveChanges();
 
             return environment;
         }

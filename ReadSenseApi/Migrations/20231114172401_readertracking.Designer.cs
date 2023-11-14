@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ReadSenseApi.Database;
 
@@ -11,9 +12,11 @@ using ReadSenseApi.Database;
 namespace ReadSenseApi.Migrations
 {
     [DbContext(typeof(ReadSenseDBContext))]
-    partial class ReadSenseDBContextModelSnapshot : ModelSnapshot
+    [Migration("20231114172401_readertracking")]
+    partial class readertracking
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

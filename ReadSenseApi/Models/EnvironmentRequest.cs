@@ -10,7 +10,7 @@ namespace ReadSenseApi.Models
         /// </summary>
         public State PlaceState { get; set; }
 
-        public TimeOfDayEnum TimeOfDay { get; set; }
+        public LocationEnum Location { get; set; }
 
         public Brightness BrightnessLevel { get; set; }
     }
