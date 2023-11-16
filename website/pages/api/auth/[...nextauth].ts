@@ -60,10 +60,10 @@ export const authOptions : NextAuthOptions = {
     },
     async session({ session, token, user }) {
       // Send properties to the client, like an access_token from a provider.
-      session.accessToken = token.accessToken
-      session.user.id = token.id
-      session.user.email = token.userName
-      session.user.agreementSigned = token.agreementSigned
+      session.accessToken = token.accessToken as string
+      session.user.id = token.id as string
+      session.user.email = token.userName as string
+      session.user.agreementSigned = token.agreementSigned as boolean
 
       return session;
     },
