@@ -85,8 +85,8 @@ const HTMLViewer = (props) => {
         textAlign: alignment,
         backgroundColor: 'white',
         // margin: '4rem auto',
-        marginLeft: '15%',
-        marginRight: '10%',
+        marginLeft: '100px',
+        marginRight: '100px',
       }}
       dangerouslySetInnerHTML={{ __html: htmlContent }}
     />

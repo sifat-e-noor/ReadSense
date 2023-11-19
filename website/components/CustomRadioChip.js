@@ -7,6 +7,7 @@ function ChipWithClick(props) {
   const handleClick = () => {
     props.handleClick(props.value)
   }
+
   return (
     <Chip
       label={props.label}
@@ -14,12 +15,13 @@ function ChipWithClick(props) {
       variant="outlined"
       key={props.index}
       className={styles.chipOutlined}
+      sx={{ ...props.additionalStyles}}
     />
   )
 }
 
 export default function CustomRadioChip( props) {
-
+  const additionalStyles = props.additionalStyles || {}
   return (
     <>
       {
@@ -33,6 +35,7 @@ export default function CustomRadioChip( props) {
                 // color="primary"
                 key={index}
                 className={styles.chipOutlinedActive}
+                sx={{ ...additionalStyles}}
               />
             )
           } else {
@@ -42,6 +45,7 @@ export default function CustomRadioChip( props) {
                 value = {data.value}
                 handleClick={props.handleClick}
                 key={index}
+                additionalStyles={additionalStyles}
               />
             )
           }
