@@ -16,12 +16,12 @@ namespace ReadSenseApi.Database.Entities
         [Required]
         public string? DeviceInfo { get; set; }
 
-        [Required]
         [ForeignKey(nameof(UserId))]
         public User? User { get; init; }
 
         public DateTimeOffset? Inserted { get; set; }
 
         public DateTimeOffset? LastUpdated { get; set; }
+        public List<Environment> Environments { get; } = [];
     }
 }

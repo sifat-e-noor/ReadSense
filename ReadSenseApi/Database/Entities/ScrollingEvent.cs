@@ -2,6 +2,9 @@
 
 namespace ReadSenseApi.Database.Entities
 {
+    /// <summary>
+    /// Scrolling Event Data
+    /// </summary>
     public class ScrollingEvent
     {
         [Key]

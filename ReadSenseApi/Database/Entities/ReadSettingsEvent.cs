@@ -36,5 +36,7 @@ namespace ReadSenseApi.Database.Entities
         public DateTimeOffset? Inserted { get; set; }
 
         public DateTimeOffset? LastUpdated { get; set; }
+
+        public List<ScrollingEvent> ScrollingEvents { get; } = [];
     }
 }
