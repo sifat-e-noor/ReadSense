@@ -1,9 +1,10 @@
 import Head from 'next/head';
-import Layout, { siteTitle } from '../components/layout';
+import Layout, { siteTitle } from '../components/ResponsiveLayout';
 import utilStyles from '../styles/utils.module.css';
 import HTMLViewer from '../components/htmlBookViewer';
 import { useRouter } from 'next/router';
-import { getFontSize, getFonts, getLineHeight, getLineSpacing, getAlign, getLayout, getLastStableSettings, setLastStableSettings, setBookId, setReadSettingsEventId } from  "../redux/readerSlice";
+import { getFontSize, getFonts, getLineHeight, getLineSpacing, getAlign, getLayout, getReadSettingsEventId, getEnvironmentId, getLastStableSettings, setLastStableSettings, setBookId, setReadSettingsEventId, setReaderSettings } from  "../redux/readerSlice";
+import { setAccessToken } from '../redux/sessionSlice';
 import{useSelector, useDispatch}from  "react-redux";
 import { useEffect, useState } from 'react';
 import FeedBackModal from '../components/FeedBackModal';
@@ -19,13 +20,60 @@ export default function ReadingState(props) {
   const align = useSelector(getAlign);
   const layout = useSelector(getLayout);
   const lastStableSettings = useSelector(getLastStableSettings);
+  const readSettingsEventId = useSelector(getReadSettingsEventId);
+  const environmentId = useSelector(getEnvironmentId);
   const  dispatch = useDispatch();
   const [getFeedBack, setFeedBack] = useState(false);
   const [settingsDiff, setSettingsDiff] = useState({});
   const [settingsApplyTime, setSettingsApplyTime] = useState(new Date().toUTCString()); // time when settings were applied
   const [userInput, setUserInput] = useState({});
   const { data: session } = useSession();
+  const [readerSettings, setReaderSettings] = useState(null);
 
+  // store the session token in the redux store
+  // fetch the last reader settings from the backend or use the default settings
+  useEffect(() => {
+    let timedSetReadsettings = null;
+    if (session) {
+      dispatch(setAccessToken(session.accessToken));
+
+      if (!readerSettings) {
+        fetch(process.env.NEXT_PUBLIC_READSENSE_API_URL + '/api/ReadSettings', {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + session.accessToken,
+          },
+          method: 'POST',
+          body: JSON.stringify({ 
+            bookId: Number(bookId) ,
+            settings: lastStableSettings,
+            readSettingsEventId: readSettingsEventId,
+            environmentId: environmentId,
+          }),
+        })
+        .then((response) => {
+          if (!response.ok) {
+            setReaderSettings(lastStableSettings);
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          return response.json();
+        })
+          .then((data) => {
+            dispatch(setReaderSettings(data));
+            timedSetReadsettings = setTimeout(() => {
+              setReaderSettings(data);
+            }, 1000);
+          })
+          .catch((error) => {
+            console.error('Error loading the book:', error);
+          });
+      }
+    }
+
+    return () => {
+      timedSetReadsettings && clearTimeout(timedSetReadsettings);
+    }
+  }, [session]);
 
   // set the book id in the redux store
   useEffect(() => {
@@ -34,6 +82,9 @@ export default function ReadingState(props) {
 
   // track changes in settings and show feedback modal
   useEffect(() => {
+    if(!readerSettings) { // readerSettings not loaded yet
+      return;
+    }
     if(lastStableSettings.fontSize != fontSize || lastStableSettings.fonts != fonts || lastStableSettings.lineHeight != lineHeight || lastStableSettings.lineSpacing != lineSpacing || lastStableSettings.align != align){
       const handler = setTimeout(() => {
         // find the settings that are different

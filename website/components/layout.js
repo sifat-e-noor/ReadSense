@@ -148,23 +148,10 @@ export default function Layout(props) {
   };
 
     return (
-      <React.Fragment>
+      <>
         <CssBaseline />
         <ElevationScroll {...props}>
           <AppBar sx={{ backgroundColor: 'transparent'}}>
-            {/* <div className={styles.logoHeader}>
-              <Image
-                priority
-                src="/images/smallLogo.png"
-                // className={utilStyles.borderCircle}
-                height={0}
-                width={0}
-                sizes="100vw"
-                style={{ width: 'auto', height: 'auto'}} // optional
-                alt=""
-              />
-            </div> */}
-            {/* <div className={styles.header}> */}
             <Toolbar component='div' variant="dense" className={styles.toolBar}>  
               <div className={styles.leftHeader}> 
                 <div className={styles.smallBox}>
@@ -200,12 +187,12 @@ export default function Layout(props) {
                     <Stack spacing={.5} direction="column">
                       <Stack spacing={1} direction="row" alignItems={'center'}>
                         < Image
-                        src="/images/format_letter_spacing_wider.png"
-                        width={0}
-                        height={0}
-                        sizes="100vw"
-                        style={{ width: '28px', height: '30px' }} // optional
-                        />
+                          src="/images/format_letter_spacing_wider.png"
+                          width={0}
+                          height={0}
+                          sizes="100vw"
+                          style={{ width: '28px', height: '30px' }} // optional
+                          />
                         <CustomTextInputForNumber type="float" min={.01} max={10} value={lineSpacing} changeHandler={handleLineSpacingChange} />
                       </Stack>
                       <Typography variant="h6" component='div' className={styles.HeaderLabel}>Letter spacing</Typography>
@@ -260,21 +247,6 @@ export default function Layout(props) {
         </ElevationScroll>
         {/* <Toolbar /> */}
         {props.children}
-      </React.Fragment>
+      </>
     );
   }
-
-
-
-
-{/* <div className={styles.largeBox}>
-              <IconButton edge="start" color="inherit" aria-label="menu" sx={{ mr: 2 }}>
-                  <ArrowBackIosNewRounded className={styles.backLogo}/>
-                </IconButton>
-                <Typography variant="h6" component='div' className={styles.backText}>
-                  Back
-                </Typography>
-                {/* <Stack spacing={2} direction="row">
-
-                </Stack> */}
-              // </div> */}
