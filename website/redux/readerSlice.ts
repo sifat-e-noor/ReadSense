@@ -76,13 +76,16 @@ export const readerSlice = createSlice({
             state.lastStableSettings = action.payload;
         },
         setReaderSettings(state, action) {
-            state.fontSize = action.payload.fontSize;
-            state.fonts = action.payload.fonts;
-            state.lineHeight = action.payload.lineHeight;
-            state.lineSpacing = action.payload.lineSpacing;
-            state.align = action.payload.align;
-            state.layout = action.payload.layout;
-            state.lastStableSettings = action.payload;
+            state.fontSize = action.payload.settings.fontSize;
+            state.fonts = action.payload.settings.fonts;
+            state.lineHeight = action.payload.settings.lineHeight;
+            state.lineSpacing = action.payload.settings.lineSpacing;
+            state.align = action.payload.settings.align;
+            state.layout = action.payload.settings.layout;
+            state.environmentId = action.payload.environmentId;
+            state.bookId = action.payload.bookId;
+            state.readSettingsEventId = action.payload.readSettingsEventId;
+            state.lastStableSettings = action.payload.settings;
         }
     }
 });

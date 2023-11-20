@@ -3,6 +3,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ReadSenseApi.Database.Entities
 {
+    /// <summary>
+    /// Represents a user device in the database.
+    /// </summary>
     public class Device
     {
         [Key]
@@ -18,6 +21,11 @@ namespace ReadSenseApi.Database.Entities
 
         [ForeignKey(nameof(UserId))]
         public User? User { get; init; }
+
+        /// <summary>
+        /// The current read settings in JSON format for this device.
+        /// </summary>
+        public string? ReadSettings { get; set; }
 
         public DateTimeOffset? Inserted { get; set; }
 

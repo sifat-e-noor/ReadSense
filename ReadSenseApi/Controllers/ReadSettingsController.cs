@@ -7,6 +7,10 @@ using ReadSenseApi.Services;
 
 namespace ReadSenseApi.Controllers
 {
+    /// <summary>
+    /// Handles ReadSettings Requests
+    /// </summary>
+    /// <param name="readSettingsService"></param>
     [Route("api/[controller]")]
     [ApiController]
     public class ReadSettingsController(IReadSettingsService readSettingsService) : ControllerBase
@@ -62,6 +66,30 @@ namespace ReadSenseApi.Controllers
         public IActionResult Delete(int id)
         {
             return StatusCode(501);
+        }
+
+        [ProducesResponseType<ReadSettingsRequest>(StatusCodes.Status200OK)]
+        [HttpPost("CurrentReadSettings")]
+        public IActionResult CurrentReadSettings([FromBody] ReadSettingsRequest readSettingsRequest)
+        {
+            if (readSettingsRequest == null )
+            {
+                return BadRequest(new { message = "Requests Body Cannot be Empty" });
+            }
+
+
+            HttpContext.Items.TryGetValue("User", out Object? userObj);
+            HttpContext.Items.TryGetValue("DeviceId", out Object? deviceId);
+
+            if (userObj == null || deviceId == null)
+            {
+                return BadRequest(new { message = "User or DeviceId is incorrect" });
+            }
+
+            User user = (User)userObj;
+
+            var state = readSettingsService.GetCurrentUserReadSettings(user.Id, (int)deviceId, readSettingsRequest);
+            return Ok(state);
         }
     }
 }

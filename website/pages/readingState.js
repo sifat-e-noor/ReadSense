@@ -28,7 +28,14 @@ export default function ReadingState(props) {
   const [settingsApplyTime, setSettingsApplyTime] = useState(new Date().toUTCString()); // time when settings were applied
   const [userInput, setUserInput] = useState({});
   const { data: session } = useSession();
-  const [readerSettings, setReaderSettings] = useState(null);
+  const [isReadSettingsInitiated, setReadSettingsInitiated] = useState(false);
+
+  // if bookid is not provided, redirect to home page
+  useEffect(() => {
+    if(!bookId){
+      router.push('/existingUserPickStory');
+    }
+  }, [bookId]);
 
   // store the session token in the redux store
   // fetch the last reader settings from the backend or use the default settings
@@ -37,8 +44,8 @@ export default function ReadingState(props) {
     if (session) {
       dispatch(setAccessToken(session.accessToken));
 
-      if (!readerSettings) {
-        fetch(process.env.NEXT_PUBLIC_READSENSE_API_URL + '/api/ReadSettings', {
+      if (!isReadSettingsInitiated) {
+        fetch(process.env.NEXT_PUBLIC_READSENSE_API_URL + '/api/ReadSettings/CurrentReadSettings', {
           headers: {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer ' + session.accessToken,
@@ -46,14 +53,21 @@ export default function ReadingState(props) {
           method: 'POST',
           body: JSON.stringify({ 
             bookId: Number(bookId) ,
-            settings: lastStableSettings,
+            settings: {
+              fontSize: fontSize,
+              fonts: fonts,
+              lineHeight: lineHeight,
+              lineSpacing: lineSpacing,
+              align: align,
+              layout: layout,
+            },
             readSettingsEventId: readSettingsEventId,
             environmentId: environmentId,
           }),
         })
         .then((response) => {
           if (!response.ok) {
-            setReaderSettings(lastStableSettings);
+            setReadSettingsInitiated(true);
             throw new Error(`HTTP error! status: ${response.status}`);
           }
           return response.json();
@@ -61,7 +75,7 @@ export default function ReadingState(props) {
           .then((data) => {
             dispatch(setReaderSettings(data));
             timedSetReadsettings = setTimeout(() => {
-              setReaderSettings(data);
+              setReadSettingsInitiated(true);
             }, 1000);
           })
           .catch((error) => {
@@ -82,7 +96,7 @@ export default function ReadingState(props) {
 
   // track changes in settings and show feedback modal
   useEffect(() => {
-    if(!readerSettings) { // readerSettings not loaded yet
+    if(!isReadSettingsInitiated) { // readerSettings not loaded yet
       return;
     }
     if(lastStableSettings.fontSize != fontSize || lastStableSettings.fonts != fonts || lastStableSettings.lineHeight != lineHeight || lastStableSettings.lineSpacing != lineSpacing || lastStableSettings.align != align){
@@ -131,7 +145,9 @@ export default function ReadingState(props) {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer ' + session.accessToken,
           },
-          body: JSON.stringify( Object.keys(userInput).map(key => userInput[key]) ),
+          body: JSON.stringify( 
+            Object.keys(userInput).map(key => userInput[key]) 
+          ),
         });
       } catch (error) {
         console.error('An unexpected error happened occurred:', error);
@@ -152,6 +168,21 @@ export default function ReadingState(props) {
   },[userInput]);
 
   const handleUserInput = (value) => {
+    value[Object.keys(value)[0]] = {
+      ...value[Object.keys(value)[0]], 
+      ...{
+        bookInfo: { id: Number(bookId) }, 
+        settings: {
+          fontSize: fontSize, 
+          fonts: fonts, 
+          lineHeight: lineHeight, 
+          lineSpacing: lineSpacing, 
+          align: align, 
+          layout: layout
+        }
+      }
+    };
+    
     setUserInput({...userInput, ...value});
   }
 
