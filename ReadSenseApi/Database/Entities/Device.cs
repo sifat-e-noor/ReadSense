@@ -30,6 +30,6 @@ namespace ReadSenseApi.Database.Entities
         public DateTimeOffset? Inserted { get; set; }
 
         public DateTimeOffset? LastUpdated { get; set; }
-        public List<Environment> Environments { get; } = [];
+        public List<Environment> Environments { get; } = new List<Environment>();
     }
 }

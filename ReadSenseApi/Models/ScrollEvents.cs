@@ -17,7 +17,7 @@ namespace ReadSenseApi.Models
         {
             if (Data.Count == 0)
             {
-                return [];
+                return new List<ScrollingEvent>();
             }
 
             return Data.Select((x, i) => new ScrollingEvent

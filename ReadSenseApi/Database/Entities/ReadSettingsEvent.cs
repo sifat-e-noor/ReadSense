@@ -81,6 +81,6 @@ namespace ReadSenseApi.Database.Entities
         /// <summary>
         /// The ScrollingEvents associated with the ReadSettings after change.
         /// </summary>
-        public List<ScrollingEvent> ScrollingEvents { get; } = [];
+        public List<ScrollingEvent> ScrollingEvents { get; } = new List<ScrollingEvent>();
     }
 }

@@ -82,6 +82,6 @@ namespace ReadSenseApi.Database.Entities
         [ForeignKey(nameof(DeviceId))]
         public Device? Device { get; init; }
 
-        public List<ReadSettingsEvent> ReadSettingsEvents { get; set; } = [];
+        public List<ReadSettingsEvent> ReadSettingsEvents { get; set; } = new List<ReadSettingsEvent>();
     }
 }

@@ -19,6 +19,6 @@ namespace ReadSenseApi.Database.Entities
         [MaxLength(300)]
         public string? ImageUrl { get; set; }
 
-        public List<ReadingHistory> ReadingHistories { get; set; } = [];
+        public List<ReadingHistory> ReadingHistories { get; set; } = new List<ReadingHistory>();
     }
 }

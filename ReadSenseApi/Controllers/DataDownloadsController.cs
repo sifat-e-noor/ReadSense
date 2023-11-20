@@ -9,12 +9,18 @@ namespace ReadSenseApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class DataDownloadsController(IDataDownloadService dataDownloadService) : ControllerBase
+    public class DataDownloadsController : ControllerBase
     {
+        private readonly IDataDownloadService dataDownloadService;
+
+        public DataDownloadsController(IDataDownloadService dataDownloadService)
+        {
+            this.dataDownloadService = dataDownloadService;
+        }
 
         // GET: api/<ValuesController>
         [HttpGet("userdata")]
-        [ProducesResponseType<UserDataResponse>(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(UserDataResponse), StatusCodes.Status200OK)]
         public IActionResult GetUserData()
         {
             var data = dataDownloadService.GetUserData();

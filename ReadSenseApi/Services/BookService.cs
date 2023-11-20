@@ -5,8 +5,15 @@ using ReadSenseApi.Models;
 
 namespace ReadSenseApi.Services
 {
-    public class BookService(ReadSenseDBContext context) : IBookService
+    public class BookService : IBookService
     {
+        private readonly ReadSenseDBContext context;
+
+        public BookService(ReadSenseDBContext context)
+        {
+            this.context = context;
+        }
+
         public IEnumerable<Database.Entities.Book> GetAll()
         {
             return context.Books.IsNullOrEmpty() ? new List<Database.Entities.Book>() : context.Books;

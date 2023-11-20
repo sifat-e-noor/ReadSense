@@ -9,7 +9,7 @@ namespace ReadSenseApi.Models
         public int Id { get; set; }
         public Boolean? AgreementSigned { get; set; }
 
-        public List<DeviceDataResponse>? Devices { get; set; } = [];
+        public List<DeviceDataResponse>? Devices { get; set; } = new List<DeviceDataResponse>();
     }
 
     public class DeviceDataResponse
@@ -19,7 +19,7 @@ namespace ReadSenseApi.Models
 
         public JsonNode? DeviceInfo { get; set; }
 
-        public List<EnvironmentDataResponse>? Environments { get; set; } = [];
+        public List<EnvironmentDataResponse>? Environments { get; set; } = new List<EnvironmentDataResponse>();
     }
 
     public class EnvironmentDataResponse
@@ -46,7 +46,7 @@ namespace ReadSenseApi.Models
         /// </summary>
         public DateTimeOffset? Inserted { get; set; }
 
-        public List<ReadSettingsEventData>? ReadSettingsEvents { get; set; } = [];
+        public List<ReadSettingsEventData>? ReadSettingsEvents { get; set; } = new List<ReadSettingsEventData>();
     }
 
     public class ReadSettingsEventData
@@ -68,7 +68,7 @@ namespace ReadSenseApi.Models
 
         public DateTimeOffset? LastUpdated { get; set; }
 
-        public List<ScrollingEventData> ScrollingEvents { get; set; } = [];
+        public List<ScrollingEventData> ScrollingEvents { get; set; } = new List<ScrollingEventData>();
     }
 
     public class ScrollingEventData

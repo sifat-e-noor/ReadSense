@@ -8,8 +8,14 @@ namespace ReadSenseApi.Services
     /// 
     /// </summary>
     /// <param name="context"></param>
-    public class EnvironmentService(ReadSenseDBContext context) : IEnvironmentService
+    public class EnvironmentService: IEnvironmentService
     {
+        private readonly ReadSenseDBContext context;
+
+        public EnvironmentService(ReadSenseDBContext context)
+        {
+            this.context = context;
+        }
         /// <summary>
         /// Get all Environments
         /// </summary>

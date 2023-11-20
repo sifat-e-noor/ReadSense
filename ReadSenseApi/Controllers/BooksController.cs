@@ -8,11 +8,14 @@ namespace ReadSenseApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BooksController(
-                   IBookService bookService
-                   ) : ControllerBase
+    public class BooksController : ControllerBase
     {
+        private readonly IBookService bookService;
 
+        public BooksController(IBookService bookService)
+        {
+            this.bookService = bookService;
+        }
         // GET: api/<BooksController>
         [HttpGet]
         public IActionResult Get()

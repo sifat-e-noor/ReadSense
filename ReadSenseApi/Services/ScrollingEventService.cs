@@ -4,8 +4,15 @@ using ReadSenseApi.Models;
 
 namespace ReadSenseApi.Services
 {
-    public class ScrollingEventService(ReadSenseDBContext context) : IScrollingEventService
+    public class ScrollingEventService : IScrollingEventService
     {
+        private readonly ReadSenseDBContext context;
+
+        public ScrollingEventService(ReadSenseDBContext context)
+        {
+            this.context = context;
+        }
+
         public async Task SaveScrollingEvent(int userId,int deviceId, ScrollEvents message)
         {
             var events = message.MapToScrollingEvent(userId, deviceId);

@@ -13,8 +13,14 @@ namespace ReadSenseApi.Controllers
     /// <param name="readSettingsService"></param>
     [Route("api/[controller]")]
     [ApiController]
-    public class ReadSettingsController(IReadSettingsService readSettingsService) : ControllerBase
+    public class ReadSettingsController : ControllerBase
     {
+        public readonly IReadSettingsService readSettingsService;
+
+        public ReadSettingsController(IReadSettingsService readSettingsService)
+        {
+            this.readSettingsService = readSettingsService;
+        }
 
         // GET: api/<ReadSettingsController>
         [HttpGet]
@@ -68,7 +74,7 @@ namespace ReadSenseApi.Controllers
             return StatusCode(501);
         }
 
-        [ProducesResponseType<ReadSettingsRequest>(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ReadSettingsRequest), StatusCodes.Status200OK)]
         [HttpPost("CurrentReadSettings")]
         public IActionResult CurrentReadSettings([FromBody] ReadSettingsRequest readSettingsRequest)
         {

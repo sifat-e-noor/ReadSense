@@ -9,12 +9,16 @@ namespace ReadSenseApi.Services
     /// <summary>
     /// 
     /// </summary>
-    public class ReadSettingsService(
-            ReadSenseDBContext _context,
-            IEnvironmentService _environmentService
-        ) : IReadSettingsService
+    public class ReadSettingsService : IReadSettingsService
     {
+        public readonly ReadSenseDBContext _context;
+        public readonly IEnvironmentService _environmentService;
 
+        public ReadSettingsService(ReadSenseDBContext context, IEnvironmentService environmentService)
+        {
+            _context = context;
+            _environmentService = environmentService;
+        }
         /// <summary>
         /// ReadSettings insert method
         /// </summary>

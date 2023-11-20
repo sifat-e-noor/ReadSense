@@ -29,7 +29,7 @@ namespace ReadSenseApi.Database.Entities
 
         public DateTimeOffset? LastUpdated { get; set; }
 
-        public List<Device> Devices { get; } = [];
+        public List<Device> Devices { get; } = new List<Device>();
         
     }
 }

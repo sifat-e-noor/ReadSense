@@ -11,11 +11,16 @@ namespace ReadSenseApi.Services
     /// </summary>
     /// <param name="context"></param>
     /// <param name="_mapper"></param>
-    public class DataDownloadService(
-        ReadSenseDBContext context,
-        IMapper _mapper) : IDataDownloadService
+    public class DataDownloadService : IDataDownloadService
     {
+        private readonly ReadSenseDBContext context;
+        private readonly IMapper _mapper;
 
+        public DataDownloadService(ReadSenseDBContext context, IMapper _mapper)
+        {
+            this.context = context;
+            this._mapper = _mapper;
+        }
         /// <summary>
         /// Get All User Data as List of UserDataResponse Objects 
         /// </summary>

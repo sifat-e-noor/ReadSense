@@ -7,8 +7,15 @@ using System.Security.Claims;
 namespace ReadSenseApi.SignalRHubs
 {
     [Authorize]
-    public class ScrollEventHub(IScrollingEventService ScrollingEventService) : Hub
+    public class ScrollEventHub : Hub
     {
+        private readonly IScrollingEventService ScrollingEventService;
+
+        public ScrollEventHub(IScrollingEventService ScrollingEventService)
+        {
+            this.ScrollingEventService = ScrollingEventService;
+        }
+
         public async Task ScrollEvents(ScrollEvents message)
         {
             var userId = Context.User?.Claims?.FirstOrDefault(x => x.Type == "id")?.Value;
