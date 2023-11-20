@@ -78,21 +78,25 @@ export default function existingUserPickStory() {
       <div className={pickstory.columnLeft}>
         <div className={pickstory.columnLeftUpperFewContent}>
           <div className={pickstory.columnRightHeader}>
-            <Stack spacing={2} direction="row"><ArrowBackIosNewRounded sx={{ color: '#735BF2'}}/> <p>Back</p> 
-            </Stack>  
+            <Stack spacing={2} direction="row">
+              <IconButton edge="start" color="inherit" aria-label="menu" sx={{ mr: 2 }} onClick={handleBackButtonClick}>
+                <ArrowBackIosNewRounded sx={{ color: '#735BF2' }} />
+              </IconButton>
+              <p style={{ textAlign: 'center', paddingTop: '.5rem', paddingLeft: '0rem' }}>Back</p>
+            </Stack>
           </div>
-          <section className={utilStyles.headingXl}> 
-          <p>Happy reading!</p>
-          </section> 
-          <section className={utilStyles.headingMd} > 
-              <p>Do you want to continue where you left with your last reading?</p>
-          </section> 
+          <section className={utilStyles.headingXl}>
+            <p>Happy reading!</p>
+          </section>
+          <section className={utilStyles.headingMd} >
+            <p>Do you want to continue where you left with your last reading?</p>
+          </section>
         </div>
-        <div className={pickstory.columnLeftUpperMiddleFewContent}>   
-        <Stack direction="row" spacing={2} alignItems={'center'}>
+        <div className={pickstory.columnLeftUpperMiddleFewContent}>
+          <Stack direction="row" spacing={2} alignItems={'center'}>
             <Button variant="outlined" className={styles.buttonOutline} onClick={handleReadANewStory} >No, read a new story</Button>
             <Button variant="contained" className={styles.buttonFilled} onClick={handleContinueReading} >Yes, Continue reading!!</Button>
-        </Stack>
+          </Stack>
         </div>
       </div>
     )

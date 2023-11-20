@@ -8,6 +8,7 @@ using ReadSenseApi.Database;
 using ReadSenseApi.Helpers;
 using ReadSenseApi.Services;
 using ReadSenseApi.SignalRHubs;
+using System.Reflection;
 using System.Text;
 using System.Text.Json.Serialization;
 
@@ -47,6 +48,12 @@ builder.Services.AddSwaggerGen(option =>
         BearerFormat = "JWT",
         Scheme = "Bearer"
     });
+    
+    // Set the comments path for the Swagger JSON and UI
+    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+
+    option.IncludeXmlComments(xmlPath);
     option.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
         {
@@ -63,6 +70,7 @@ builder.Services.AddSwaggerGen(option =>
     });
 });
 
+builder.Services.AddAutoMapper(typeof(Program));
 
 
 // configure DI for application services
@@ -72,6 +80,7 @@ builder.Services.AddScoped<IEnvironmentService, EnvironmentService>();
 builder.Services.AddScoped<IReadSettingsService, ReadSettingsService>();
 builder.Services.AddScoped<IBookService, BookService>();
 builder.Services.AddScoped<IScrollingEventService, ScrollingEventService>();
+builder.Services.AddScoped<IDataDownloadService, DataDownloadService>();
 
 builder.Services.AddAuthorization();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>

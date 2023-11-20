@@ -4,8 +4,16 @@ using ReadSenseApi.Models;
 
 namespace ReadSenseApi.Services
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="context"></param>
     public class EnvironmentService(ReadSenseDBContext context) : IEnvironmentService
     {
+        /// <summary>
+        /// Get all Environments
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<Database.Entities.Environment> GetAll()
         {
             return context.Environments.IsNullOrEmpty() ? new List<Database.Entities.Environment>() : context.Environments;
@@ -31,7 +39,13 @@ namespace ReadSenseApi.Services
             return context.Environments.OrderByDescending(x => x.Id).FirstOrDefault(x => x.DeviceId == deviceId && x.UserId == userId);
         }
 
-        // Environment insert method
+        /// <summary>
+        /// Environment insert method
+        /// </summary>
+        /// <param name="environmentRequest"></param>
+        /// <param name="userId"></param>
+        /// <param name="deviceId"></param>
+        /// <returns></returns>
         public Database.Entities.Environment? Insert(EnvironmentRequest environmentRequest, int userId, int deviceId)
         {
             var environment = new Database.Entities.Environment
@@ -48,6 +62,11 @@ namespace ReadSenseApi.Services
             context.SaveChanges();
 
             return environment;
+        }
+
+        public int? GetUserDeviceLatestEnvironmentId(int userId, int deviceId)
+        {
+            return context.Environments.OrderByDescending(x => x.Id).FirstOrDefault(x => x.UserId == userId && x.DeviceId == deviceId)?.Id;
         }
     }
 }

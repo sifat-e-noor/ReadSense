@@ -3,6 +3,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ReadSenseApi.Database.Entities
 {
+    /// <summary>
+    /// User Reading Environment
+    /// </summary>
     public class Environment
     {
         public enum State

@@ -12,5 +12,7 @@ namespace ReadSenseApi.Services
 
         public IEnumerable<Database.Entities.ReadSettingsEvent> GetAll();
         public Database.Entities.ReadSettingsEvent? GetById(int id);
+
+        ReadSettingsRequest GetCurrentUserReadSettings(int userId, int deviceId, ReadSettingsRequest readSettingsRequest);
     }
 }

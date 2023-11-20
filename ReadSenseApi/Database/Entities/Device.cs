@@ -3,6 +3,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ReadSenseApi.Database.Entities
 {
+    /// <summary>
+    /// Represents a user device in the database.
+    /// </summary>
     public class Device
     {
         [Key]
@@ -16,12 +19,17 @@ namespace ReadSenseApi.Database.Entities
         [Required]
         public string? DeviceInfo { get; set; }
 
-        [Required]
         [ForeignKey(nameof(UserId))]
         public User? User { get; init; }
+
+        /// <summary>
+        /// The current read settings in JSON format for this device.
+        /// </summary>
+        public string? ReadSettings { get; set; }
 
         public DateTimeOffset? Inserted { get; set; }
 
         public DateTimeOffset? LastUpdated { get; set; }
+        public List<Environment> Environments { get; } = [];
     }
 }

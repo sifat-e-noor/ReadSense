@@ -26,6 +26,12 @@ namespace ReadSenseApi.Models
         [JsonPropertyName("bookInfo")]
         public JsonNode? BookInfo { get; set; }
 
+        /// <summary>
+        /// Current Read Settings of the User
+        /// </summary>
+        [JsonPropertyName("settings")]
+        public JsonNode? Settings { get; set; }
+
         [JsonPropertyName("settingsApplyTime")]
         public DateTime SettingsApplyTime { get; set; }
     }

@@ -28,5 +28,8 @@ namespace ReadSenseApi.Database.Entities
         public DateTimeOffset? Inserted { get; set; }
 
         public DateTimeOffset? LastUpdated { get; set; }
+
+        public List<Device> Devices { get; } = [];
+        
     }
 }

@@ -74,11 +74,23 @@ export const readerSlice = createSlice({
         },
         setLastStableSettings(state, action) {
             state.lastStableSettings = action.payload;
+        },
+        setReaderSettings(state, action) {
+            state.fontSize = action.payload.settings.fontSize;
+            state.fonts = action.payload.settings.fonts;
+            state.lineHeight = action.payload.settings.lineHeight;
+            state.lineSpacing = action.payload.settings.lineSpacing;
+            state.align = action.payload.settings.align;
+            state.layout = action.payload.settings.layout;
+            state.environmentId = action.payload.environmentId;
+            state.bookId = action.payload.bookId;
+            state.readSettingsEventId = action.payload.readSettingsEventId;
+            state.lastStableSettings = action.payload.settings;
         }
     }
 });
 
-export const { setFontSize, setFonts, setLineHeight, setLineSpacing, setAlign, setLayout, setEnvironmentId, setBookId, setReadSettingsEventId, setLastStableSettings } = readerSlice.actions;
+export const { setFontSize, setFonts, setLineHeight, setLineSpacing, setAlign, setLayout, setEnvironmentId, setBookId, setReadSettingsEventId, setLastStableSettings, setReaderSettings } = readerSlice.actions;
 
 export const getFontSize = (state: AppState) => state.reader.fontSize;
 export const getFonts = (state: AppState) => state.reader.fonts;
