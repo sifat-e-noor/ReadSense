@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ReadSenseApi.Database;
 using ReadSenseApi.Models;
 using ReadSenseApi.Services;
@@ -9,6 +10,7 @@ namespace ReadSenseApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class DataDownloadsController : ControllerBase
     {
         private readonly IDataDownloadService dataDownloadService;

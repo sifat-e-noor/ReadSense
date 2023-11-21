@@ -64,6 +64,8 @@ namespace ReadSenseApi.Models
 
         public JsonNode? BookInfo { get; set; }
 
+        public JsonNode? Settings { get; set; }
+
         public DateTimeOffset? Inserted { get; set; }
 
         public DateTimeOffset? LastUpdated { get; set; }

@@ -35,8 +35,6 @@ namespace ReadSenseApi.Services
                 .ThenInclude(r => r.ScrollingEvents)
                 .Select(u => _mapper.Map<UserDataResponse>(u));
 
-
-
             return data;
         }
     }

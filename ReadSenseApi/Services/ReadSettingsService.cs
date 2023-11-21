@@ -269,7 +269,7 @@ namespace ReadSenseApi.Services
                 LineSpacing = null,
                 Align = null,
                 Layout = null,
-                BookInfo = readSettingsRequest.BookId.HasValue?  $"{{ id: {readSettingsRequest.BookId.Value} }}" : null,
+                BookInfo = readSettingsRequest.BookId.HasValue?  $"{{ \"id\": {readSettingsRequest.BookId.Value} }}" : null,
                 Settings = readSettingsRequest.Settings?.ToJsonString(),
                 Inserted = DateTime.Now.ToUniversalTime(),
             };

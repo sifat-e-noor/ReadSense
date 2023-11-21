@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ReadSenseApi.Database.Entities;
 using ReadSenseApi.Models;
 using ReadSenseApi.Services;
@@ -13,6 +14,7 @@ namespace ReadSenseApi.Controllers
     /// <param name="readSettingsService"></param>
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ReadSettingsController : ControllerBase
     {
         public readonly IReadSettingsService readSettingsService;
