@@ -1,4 +1,5 @@
-import NextAuth, { NextAuthOptions }  from "next-auth"
+import NextAuth, { NextAuthOptions, Session }  from "next-auth"
+import { JWT } from "next-auth/jwt";
 import CredentialsProvider from "next-auth/providers/credentials"
 
 export const authOptions : NextAuthOptions = {
@@ -56,15 +57,38 @@ export const authOptions : NextAuthOptions = {
       if (user) {
         return { ...token, ...user };
       }
+
+      
+      // on subsequent calls, token is provided and we need to check if it's expired. Though backend does not return refresh token
+      // if (token?.accessTokenExpires) {
+      //   if (Date.now() / 1000 < token?.accessTokenExpires) return { ...token, ...user };
+      // } else if (token?.refreshToken) return refreshAccessToken(token);
+
       return token;
     },
-    async session({ session, token, user }) {
+    async session({ session, token }: { session: Session; token: JWT }) {
       // Send properties to the client, like an access_token from a provider.
-      session.accessToken = token.accessToken as string
-      session.user.id = token.id as string
-      session.user.email = token.userName as string
-      session.user.agreementSigned = token.agreementSigned as boolean
+      console.log(token?.accessTokenExpires, Date.now() / 1000)
+      if ( token?.accessTokenExpires && Date.now() / 1000 > token?.accessTokenExpires) {
+        return Promise.reject({
+          error: new Error("Token has expired. Please log in again to get a new refresh token."),
+        });
+      }
 
+      session.token = token.token as string
+      
+      const user : Session["user"] =  {
+        id: token.id as string,
+        email: token.userName as string,
+        agreementSigned: token.agreementSigned as boolean
+      }
+
+      const accessTokenData = JSON.parse(atob(token.token.split(".")?.at(1) as string));
+
+      session.user = { ...user ,...accessTokenData };
+      token.accessTokenExpires = accessTokenData.exp;
+
+      session.token = token?.token;
       return session;
     },
   },

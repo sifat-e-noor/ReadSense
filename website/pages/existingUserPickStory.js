@@ -10,6 +10,7 @@ import { ArrowBackIosNewRounded, BackHandRounded } from '@mui/icons-material';
 import { useRouter } from 'next/router';
 import IconButton from '@mui/material/IconButton';
 import { useSession } from "next-auth/react";
+import useAuth  from '../components/useAuth';
 
 export default function existingUserPickStory() {
   const [selectBookId, setSelectBookId] = React.useState(undefined);
@@ -17,6 +18,7 @@ export default function existingUserPickStory() {
   const [continueReading, setContinueReading] = React.useState(false); // true if user has reading history
   const router = useRouter();
   const { data: session } = useSession();
+  const isAuthenticated = useAuth(true);
 
   // fetch all books with reading history
   React.useEffect(() => {
@@ -26,7 +28,7 @@ export default function existingUserPickStory() {
     fetch(process.env.NEXT_PUBLIC_READSENSE_API_URL + '/api/books/GetBooksWithUserReadingHistory', {
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + session.accessToken,
+        'Authorization': 'Bearer ' + session.token,
       },
       method: 'GET'
     })

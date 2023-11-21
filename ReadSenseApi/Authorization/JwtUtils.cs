@@ -8,7 +8,10 @@ using System.Text;
 
 namespace ReadSenseApi.Authorization
 {
-    public class JwtUtils: IJwtUtils
+    /// <summary>
+    /// 
+    /// </summary>
+    public class JwtUtils : IJwtUtils
     {
         private readonly AppSettings _appSettings;
 

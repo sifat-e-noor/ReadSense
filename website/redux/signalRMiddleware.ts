@@ -10,12 +10,12 @@ let connection : signalR.HubConnection | null = null;
 
 export const signalRMiddleware: Middleware = storeAPI => next => action => {
   const state = storeAPI.getState();
-  const accessToken = state.session.accessToken;
+  const token = state.session.token;
   // Create a new connection to the SignalR hub if it doesn't exist
-  if (!connection && accessToken) {
+  if (!connection && token) {
     connection = new signalR.HubConnectionBuilder()
       .withUrl(process.env.NEXT_PUBLIC_READSENSE_API_URL+"/hub", {
-        accessTokenFactory: () =>  accessToken
+        accessTokenFactory: () =>  token
     } as signalR.IHttpConnectionOptions)
       .configureLogging(signalR.LogLevel.Information)
       .withAutomaticReconnect()

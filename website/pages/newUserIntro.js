@@ -12,11 +12,13 @@ import { useSession } from "next-auth/react";
 import toast from "../components/Toast";
 import { useRouter } from "next/router";
 import DisagreeModal from '../components/disagreeModal';
+import useAuth  from '../components/useAuth';
 
 export default function Introduction() {
     const { data: session } = useSession();
     const router = useRouter();
     const [showModal, setShowModal] = React.useState(false);
+    const isAuthenticated = useAuth(true);
 
     const notify = React.useCallback((type, message) => {
       toast({ type, message });
@@ -32,7 +34,7 @@ export default function Introduction() {
           }),
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + session.accessToken,
+            'Authorization': 'Bearer ' + session.token,
           },
           method: 'POST'
         });
@@ -42,7 +44,6 @@ export default function Introduction() {
       }
 
       if (res?.status === 200) {
-        console.log('agreement signed');
         notify("success", "Agreement signed successfully.");
         router.push('/newUserContext');
       } else {

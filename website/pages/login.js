@@ -72,8 +72,7 @@ export default function Home() {
         fingerPrint: fpHash,
         deviceInfo: JSON.stringify(deviceInfo) ,
         // callbackUrl: '/'
-      }).then( (response) => { 
-        console.log( response);        
+      }).then( (response) => {       
         if (response.error) {
           console.log("response:" + response.error);
           notify("error", "Unexpected error occurred. Please retry again.");
@@ -139,7 +138,7 @@ Home.getInitialProps = async (context) => {
 
   const session = await getSession({ req });
 
-  if (session && res && session.accessToken) {
+  if (session && res && session.token) {
     res.writeHead(302, { Location: '/' });
     res.end();
     return;

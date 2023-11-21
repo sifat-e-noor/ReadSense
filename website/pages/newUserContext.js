@@ -10,8 +10,9 @@ import { useSession } from "next-auth/react";
 import toast from "../components/Toast";
 import { useRouter } from "next/router";
 import { setEnvironmentId } from '../redux/readerSlice';
-import { setAccessToken } from '../redux/sessionSlice';
+import { settoken } from '../redux/sessionSlice';
 import { useDispatch } from 'react-redux';
+import useAuth  from '../components/useAuth';
 
 export default function newUserContext() {
   const [place, setPlace] = React.useState(undefined);
@@ -20,10 +21,11 @@ export default function newUserContext() {
   const router = useRouter();
   const { data: session } = useSession();
   const dispatch = useDispatch();
+  const isAuthenticated = useAuth(true);
 
   React.useEffect(() => {
     if (session) {
-      dispatch(setAccessToken(session.accessToken));
+      dispatch(settoken(session.token));
     }
   }, [session]);
 
@@ -37,7 +39,7 @@ export default function newUserContext() {
 
   React.useEffect(() => {
     if (place && location && brightness) {
-      console.log('place, location, brightness', place, location, brightness);
+      
       handleAggreed({placeState:place,location:location,brightnessLevel:brightness});
     }
   }, [ place, location, brightness ]);
@@ -52,7 +54,7 @@ export default function newUserContext() {
         }),
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + session.accessToken,
+          'Authorization': 'Bearer ' + session.token,
         },
         method: 'POST'
       });

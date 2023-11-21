@@ -137,8 +137,9 @@ using (var scope = app.Services.CreateScope())
 }
 
 // global cors policy
-var clientUrl = app.Configuration["AppSettings:ClientUrl"] ?? throw new Exception("Client URL is null");
-app.UseCors(x =>x.WithOrigins(clientUrl)
+var clientUrlSection = app.Configuration.GetSection("AppSettings:ClientUrl") ?? throw new Exception("Client URL is null");
+var clientUrls = clientUrlSection.Get<string[]>() ?? throw new Exception("Client URL is null");
+app.UseCors(x =>x.WithOrigins(clientUrls)
      .AllowAnyMethod()
      .AllowAnyHeader()
      .AllowCredentials());

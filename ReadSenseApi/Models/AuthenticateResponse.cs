@@ -12,7 +12,6 @@ namespace ReadSenseApi.Models
 
         public Boolean? AgreementSigned { get; set; }
 
-        [JsonPropertyName("accessToken")]
         public string Token { get; set; }
 
 

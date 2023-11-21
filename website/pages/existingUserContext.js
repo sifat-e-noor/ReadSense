@@ -9,8 +9,9 @@ import { useSession } from "next-auth/react";
 import toast from "../components/Toast";
 import { useRouter } from "next/router";
 import { setEnvironmentId } from '../redux/readerSlice';
-import { setAccessToken } from '../redux/sessionSlice';
+import { settoken } from '../redux/sessionSlice';
 import { useDispatch } from 'react-redux';
+import useAuth  from '../components/useAuth';
 
 export default function existingUserContext() {
   const [place, setPlace] = React.useState(undefined);
@@ -19,10 +20,11 @@ export default function existingUserContext() {
   const router = useRouter();
   const { data: session } = useSession();
   const dispatch = useDispatch();
+  const isAuthenticated = useAuth(true);
 
   React.useEffect(() => {
     if (session) {
-      dispatch(setAccessToken(session.accessToken));
+      dispatch(settoken(session.token));
     }
   }, [session]);
 
@@ -52,7 +54,7 @@ export default function existingUserContext() {
         }),
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + session.accessToken,
+          'Authorization': 'Bearer ' + session.token,
         },
         method: 'POST'
       });
@@ -69,6 +71,8 @@ export default function existingUserContext() {
         dispatch(setEnvironmentId(data.id));
         router.push('/existingUserPickStory');
       })
+    } else if (res?.status === 401) {
+      router.push('/login');
     } else {
       res?.json().then((data) => {
         dismiss();
@@ -80,6 +84,7 @@ export default function existingUserContext() {
         
       }).catch((err) => {
         console.log(err);
+        notify("error", "Something went wrong. Please try again later.");
       });
     }
   }

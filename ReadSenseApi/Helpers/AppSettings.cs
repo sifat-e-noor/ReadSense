@@ -4,6 +4,6 @@
     {
         public string? Secret { get; set; }
 
-        public string? ClientUrl { get; set; }
+        public List<string>? ClientUrl { get; set; }
     }
 }

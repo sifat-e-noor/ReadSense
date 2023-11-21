@@ -35,7 +35,6 @@ export default function QuantityInput(props) {
 
   const keyPress = (e) => {
     if(e.keyCode == 13 && props.min != undefined && props.max != undefined && e.target.value >= props.min && e.target.value <= props.max){
-       console.log('value', e.target.value);
        props.changeHandler(e.target.value);
     }
  }

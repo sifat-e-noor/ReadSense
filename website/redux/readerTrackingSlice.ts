@@ -69,7 +69,7 @@ export const readerTrackingSlice = createSlice({
                         direction *= -1;
                     }
                 }
-                console.log("scrollTrackingData:", state.scrollTrackingData);
+                
             }
         },
         setBookPTagOffset(state, action) {

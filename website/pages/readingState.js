@@ -4,11 +4,12 @@ import utilStyles from '../styles/utils.module.css';
 import HTMLViewer from '../components/htmlBookViewer';
 import { useRouter } from 'next/router';
 import { getFontSize, getFonts, getLineHeight, getLineSpacing, getAlign, getLayout, getReadSettingsEventId, getEnvironmentId, getLastStableSettings, setLastStableSettings, setBookId, setReadSettingsEventId, setReaderSettings } from  "../redux/readerSlice";
-import { setAccessToken } from '../redux/sessionSlice';
+import { settoken } from '../redux/sessionSlice';
 import{useSelector, useDispatch}from  "react-redux";
 import { useEffect, useState } from 'react';
 import FeedBackModal from '../components/FeedBackModal';
 import { useSession } from "next-auth/react";
+import useAuth  from '../components/useAuth';
 
 export default function ReadingState(props) {
   const router = useRouter();
@@ -29,6 +30,7 @@ export default function ReadingState(props) {
   const [userInput, setUserInput] = useState({});
   const { data: session } = useSession();
   const [isReadSettingsInitiated, setReadSettingsInitiated] = useState(false);
+  const isAuthenticated = useAuth(true);
 
   // if bookid is not provided, redirect to home page
   useEffect(() => {
@@ -42,13 +44,13 @@ export default function ReadingState(props) {
   useEffect(() => {
     let timedSetReadsettings = null;
     if (session) {
-      dispatch(setAccessToken(session.accessToken));
+      dispatch(settoken(session.token));
 
       if (!isReadSettingsInitiated) {
         fetch(process.env.NEXT_PUBLIC_READSENSE_API_URL + '/api/ReadSettings/CurrentReadSettings', {
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + session.accessToken,
+            'Authorization': 'Bearer ' + session.token,
           },
           method: 'POST',
           body: JSON.stringify({ 
@@ -143,7 +145,7 @@ export default function ReadingState(props) {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + session.accessToken,
+            'Authorization': 'Bearer ' + session.token,
           },
           body: JSON.stringify( 
             Object.keys(userInput).map(key => userInput[key]) 

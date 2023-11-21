@@ -9,8 +9,6 @@ export default function Landing() {
 
   useEffect(() => {
     if (status === "unauthenticated") {
-      console.log("No JWT");
-      console.log(status);
       void signIn();
     } else if (status === "authenticated") {
       if(session.user.agreementSigned){
@@ -33,7 +31,7 @@ export default function Landing() {
       response = await fetch(process.env.NEXT_PUBLIC_READSENSE_API_URL+"/api/users/"+id, {
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Bearer " + session.accessToken,
+          Authorization: "Bearer " + session.token,
         },
         method: "GET",
       });

@@ -2,25 +2,25 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AppState } from "./store";
 
 export interface SessionState {
-  accessToken: string | null;
+  token: string | null;
 }
 
 const initialState: SessionState = {
-  accessToken: null,
+  token: null,
 };
 
 export const sessionSlice = createSlice({
   name: 'session',
   initialState,
   reducers: {
-    setAccessToken: (state, action: PayloadAction<string>) => {
-      state.accessToken = action.payload;
+    settoken: (state, action: PayloadAction<string>) => {
+      state.token = action.payload;
     },
   },
 });
 
-export const { setAccessToken } = sessionSlice.actions;
+export const { settoken } = sessionSlice.actions;
 
-export const accessToken = (state: AppState) => state.session.accessToken;
+export const token = (state: AppState) => state.session.token;
 
 export default sessionSlice.reducer;

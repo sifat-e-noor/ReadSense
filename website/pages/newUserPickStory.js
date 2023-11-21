@@ -10,10 +10,12 @@ import Image from 'next/image';
 import BookCoverImage from '../components/bookCoverImage';
 import { ArrowBackIosNewRounded, BackHandRounded } from '@mui/icons-material';
 import IconButton from '@mui/material/IconButton';
+import useAuth from '../components/useAuth';
 
 export default function newUserPickStory() {
   const [selectBookId, setSelectBookId] = React.useState(undefined);
   const router = useRouter();
+  const isAuthenticated = useAuth(true);
 
   const handleBackButtonClick = () => {
     router.push('/existingUserContext');
