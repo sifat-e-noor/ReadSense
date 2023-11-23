@@ -11,7 +11,7 @@ import { useRouter } from "next/router";
 import { setEnvironmentId } from '../redux/readerSlice';
 import { settoken } from '../redux/sessionSlice';
 import { useDispatch } from 'react-redux';
-import useAuth  from '../components/useAuth';
+import useAuth from '../components/useAuth';
 
 export default function existingUserContext() {
   const [place, setPlace] = React.useState(undefined);
@@ -40,17 +40,17 @@ export default function existingUserContext() {
   React.useEffect(() => {
     if (place && location && brightness) {
       console.log('place, location, brightness', place, location, brightness);
-      handleAggreed({placeState:place,location:location,brightnessLevel:brightness});
+      handleAggreed({ placeState: place, location: location, brightnessLevel: brightness });
     }
-  }, [ place, location, brightness ]);
+  }, [place, location, brightness]);
 
-  const handleAggreed = async ({placeState,location,brightnessLevel}) => {
+  const handleAggreed = async ({ placeState, location, brightnessLevel }) => {
     notify("info", "We are saving your environment details.....");
     let res = undefined;
     try {
-      res = await fetch(process.env.NEXT_PUBLIC_READSENSE_API_URL+'/api/environment', {
+      res = await fetch(process.env.NEXT_PUBLIC_READSENSE_API_URL + '/api/environment', {
         body: JSON.stringify({
-          placeState,location,brightnessLevel
+          placeState, location, brightnessLevel
         }),
         headers: {
           'Content-Type': 'application/json',
@@ -81,7 +81,7 @@ export default function existingUserContext() {
         } else {
           notify("error", "Something went wrong. Please try again later.");
         }
-        
+
       }).catch((err) => {
         console.log(err);
         notify("error", "Something went wrong. Please try again later.");
@@ -93,7 +93,7 @@ export default function existingUserContext() {
     { label: 'A quite place', value: 'Quiet' },
     { label: 'A chaotic place', value: 'Chaotic' },
   ];
-  
+
   const youAreRadioButtonFields = [
     { label: 'At Home', value: 'Home' },
     { label: 'In Transportation', value: 'Transport' },
@@ -105,11 +105,11 @@ export default function existingUserContext() {
     { label: 'Dim', value: 'Dim' },
     { label: 'Bright', value: 'Bright' },
   ]
-  
+
   const handleClick = () => {
     console.info('You clicked the Chip.');
   };
-  
+
   return (
     <>
       <div className={newusercontext.container}>
@@ -122,57 +122,91 @@ export default function existingUserContext() {
               height={0}
               sizes="100vw"
               style={{ width: 'auto', height: 'auto' }} // optional
-            /> 
+            />
           </div>
         </div>
         <div className={newusercontext.columnRight}>
           <div className={newusercontext.columnRightUpper}>
-            <section className={utilStyles.headingXl}> 
-              <p>Hello Reader!<br/>
-              Good to see you again</p>
-            </section> 
-            <section className={utilStyles.headingMd} style={{ marginLeft: '20px' }}> 
-              <p>Before we move on, tell us a bit about your current environment. 
-              As you know, It will help us to analyze more in detail.  </p>
-            </section> 
+            <section className={utilStyles.headingXl}>
+              <p>Hello Reader!<br />
+                Good to see you again</p>
+            </section>
+            <section className={utilStyles.headingMd} style={{ marginLeft: '20px' }}>
+              <p>Before we move on, tell us a bit about your current environment.
+                As you know, It will help us to analyze more in detail.  </p>
+            </section>
           </div>
           <div className={newusercontext.columnRightLower}>
-            <div className={newusercontext.columnRightLowerLeft}>
-              <Stack spacing={6.2} direction="column" className={utilStyles.headingMd}>
+            {/* <div className={newusercontext.columnRightLowerLeft}>
+              <Stack  direction="column" className={utilStyles.headingMd}>
                 <p>You are in ......</p>
                 <p>You are...</p>
                 <p>Environment light..</p>
               </Stack>
-            </div>
+            </div> */}
             <div className={newusercontext.columnRightLowerRight}>
               <Stack spacing={3.5} direction="column" className={utilStyles.headingMd}>
-                <Stack spacing={2} direction="row" className={utilStyles.headingMd}> 
-                  <CustomRadioChip
-                    handleClick = {setPlace}
-                    selected = {place}
-                    fields = {placeRadioButtonFields}
-                  />
+                <Stack spacing={10} direction="row" className={utilStyles.headingMd}>
+                  <p>You are in ......</p>
+                  <Stack direction="column" spacing={1}>
+                    <Stack spacing={2} direction="row" className={utilStyles.headingMd}>
+                      <CustomRadioChip
+                        handleClick={setPlace}
+                        selected={place}
+                        fields={placeRadioButtonFields}
+                      />
+                    </Stack>
+                    <p style={{ color: 'gray', textAlign: 'start', fontStyle: 'italic', fontSize: '.8rem', margin: '0px' }}>Choose any</p>
+                  </Stack>
                 </Stack>
-                <p style={{color:'gray', textAlign:'start', fontStyle: 'italic', fontSize:'.8rem', margin: '0px'}}>Choose any</p>
-                <Stack spacing={2} direction="row" className={utilStyles.headingMd}> 
-                  <CustomRadioChip
-                    handleClick = {setLocation}
-                    selected = {location}
-                    fields = {youAreRadioButtonFields}
-                  />
+                <Stack spacing={17} direction="row" className={utilStyles.headingMd}>
+                  <p>You are.......</p>
+                  <Stack direction="column" spacing={1}>
+                    <Stack spacing={2} direction="row" className={utilStyles.headingMd}>
+                      <CustomRadioChip
+                        handleClick={setLocation}
+                        selected={location}
+                        fields={youAreRadioButtonFields}
+                      />
+                    </Stack>
+                    <p style={{ color: 'gray', textAlign: 'start', fontStyle: 'italic', fontSize: '.8rem', margin: '0px' }}>Choose any</p>
+                  </Stack>
                 </Stack>
-                <p style={{color:'gray', textAlign:'start', fontStyle: 'italic', fontSize:'.8rem', margin: '0px'}}>Choose any</p>
-                <Stack spacing={2} direction="row" className={utilStyles.headingMd}> 
-                  <CustomRadioChip
-                    handleClick = {setBrightness}
-                    selected = {brightness}
-                    fields = {brightnessRadioButtonFields}
-                  />
+                <Stack spacing={4} direction="row" className={utilStyles.headingMd}>
+                  <p>Environment light...</p>
+                  <Stack direction="column" spacing={1}>
+                    <Stack spacing={2} direction="row" className={utilStyles.headingMd}>
+                      <CustomRadioChip
+                        handleClick={setBrightness}
+                        selected={brightness}
+                        fields={brightnessRadioButtonFields}
+                      />
+                    </Stack>
+                    <p style={{ color: 'gray', textAlign: 'start', fontStyle: 'italic', fontSize: '.8rem', margin: '0px' }}>Choose any</p>
+                  </Stack>
                 </Stack>
-                <p style={{color:'gray', textAlign:'start', fontStyle: 'italic', fontSize:'.8rem', margin: '0px'}}>Choose any</p>
+                {/* <p style={{ color: 'gray', textAlign: 'start', fontStyle: 'italic', fontSize: '.8rem', margin: '0px' }}>Choose any</p> */}
+                {/* <Stack spacing={2} direction="row" className={utilStyles.headingMd}>
+                  <p>You are...</p>
+                  <CustomRadioChip
+                    handleClick={setLocation}
+                    selected={location}
+                    fields={youAreRadioButtonFields}
+                  />
+                </Stack> */}
+                {/* <p style={{ color: 'gray', textAlign: 'start', fontStyle: 'italic', fontSize: '.8rem', margin: '0px' }}>Choose any</p> */}
+                {/* <Stack spacing={2} direction="row" className={utilStyles.headingMd}>
+                  <p>Environment light..</p>
+                  <CustomRadioChip
+                    handleClick={setBrightness}
+                    selected={brightness}
+                    fields={brightnessRadioButtonFields}
+                  />
+                </Stack> */}
+                {/* <p style={{ color: 'gray', textAlign: 'start', fontStyle: 'italic', fontSize: '.8rem', margin: '0px' }}>Choose any</p> */}
               </Stack>
-            </div> 
-          </div> 
+            </div>
+          </div>
         </div>
       </div>
     </>

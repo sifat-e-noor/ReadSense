@@ -163,9 +163,9 @@ function ResponsiveLayout(props) {
         <>
             <CssBaseline />
             <ElevationScroll {...props}>
-                <AppBar position="sticky" sx={{ background: "transparent" }}>
-                    <Container maxWidth="xl" sx={{ background: "transparent" }}>
-                        <Toolbar disableGutters sx={{ backgroundColor: "white" }}>
+                <AppBar position="fixed" sx={{ backgroundColor: 'white'}}>
+                    <Container maxWidth="xl" >
+                        <Toolbar disableGutters>
                             {/* back button */}
                             <Stack spacing={.5} direction="row" alignItems={'center'}>
                                 <IconButton edge="start" color="inherit" aria-label="backArrow" sx={{ mr: 2 }} onClick={handleBackButtonClick}>

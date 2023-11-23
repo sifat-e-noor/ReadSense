@@ -10,7 +10,7 @@ import { ArrowBackIosNewRounded, BackHandRounded } from '@mui/icons-material';
 import { useRouter } from 'next/router';
 import IconButton from '@mui/material/IconButton';
 import { useSession } from "next-auth/react";
-import useAuth  from '../components/useAuth';
+import useAuth from '../components/useAuth';
 
 export default function existingUserPickStory() {
   const [selectBookId, setSelectBookId] = React.useState(undefined);
@@ -77,84 +77,31 @@ export default function existingUserPickStory() {
     }
 
     return (
-      <div className={pickstory.columnLeft}>
-        <div className={pickstory.columnLeftUpperFewContent}>
-          <div className={pickstory.columnRightHeader}>
-            <Stack spacing={2} direction="row">
-              <IconButton edge="start" color="inherit" aria-label="menu" sx={{ mr: 2 }} onClick={handleBackButtonClick}>
-                <ArrowBackIosNewRounded sx={{ color: '#735BF2' }} />
-              </IconButton>
-              <p style={{ textAlign: 'center', paddingTop: '.5rem', paddingLeft: '0rem' }}>Back</p>
+      <>
+        <div className={pickstory.columnLeft}>
+          <div className={pickstory.columnLeftUpperFewContent}>
+            <div className={pickstory.columnRightHeader}>
+              <Stack spacing={2} direction="row">
+                <IconButton edge="start" color="inherit" aria-label="menu" sx={{ mr: 2 }} onClick={handleBackButtonClick}>
+                  <ArrowBackIosNewRounded sx={{ color: '#735BF2' }} />
+                </IconButton>
+                <p style={{ textAlign: 'center', paddingTop: '.5rem', paddingLeft: '0rem' }}>Back</p>
+              </Stack>
+            </div>
+            <section className={utilStyles.headingXl}>
+              <p>Happy reading!</p>
+            </section>
+            <section className={utilStyles.headingMd} >
+              <p>Do you want to continue where you left with your last reading?</p>
+            </section>
+          </div>
+          <div className={pickstory.columnLeftUpperMiddleFewContent}>
+            <Stack direction="row" spacing={2} alignItems={'center'}>
+              <Button variant="outlined" className={styles.buttonOutline} onClick={handleReadANewStory} >No, read a new story</Button>
+              <Button variant="contained" className={styles.buttonFilled} onClick={handleContinueReading} >Yes, Continue reading!!</Button>
             </Stack>
           </div>
-          <section className={utilStyles.headingXl}>
-            <p>Happy reading!</p>
-          </section>
-          <section className={utilStyles.headingMd} >
-            <p>Do you want to continue where you left with your last reading?</p>
-          </section>
         </div>
-        <div className={pickstory.columnLeftUpperMiddleFewContent}>
-          <Stack direction="row" spacing={2} alignItems={'center'}>
-            <Button variant="outlined" className={styles.buttonOutline} onClick={handleReadANewStory} >No, read a new story</Button>
-            <Button variant="contained" className={styles.buttonFilled} onClick={handleContinueReading} >Yes, Continue reading!!</Button>
-          </Stack>
-        </div>
-      </div>
-    )
-  }
-
-  const PickStory = () => {
-    return (
-      <div className={pickstory.columnLeft}>
-        <div className={pickstory.columnLeftUpper}>
-          <div className={pickstory.columnRightHeader}>
-            <Stack spacing={2} direction="row">
-              <IconButton edge="start" color="inherit" aria-label="menu" sx={{ mr: 2 }} onClick={handleBackButtonClick}>
-                <ArrowBackIosNewRounded sx={{ color: '#735BF2' }} />
-              </IconButton>
-              <p style={{ textAlign: 'center', paddingTop: '.5rem', paddingLeft: '0rem' }}>Back</p>
-            </Stack>
-          </div>
-          <section className={utilStyles.headingXl}>
-            <p>Pick your story!<br />
-              & start reading!</p>
-          </section>
-          {/* <section className={utilStyles.headingMd} > 
-                <p>All you have to do is read a story you like!</p>
-            </section>  */}
-          <div className={pickstory.columnLeftUpperMiddle1}>
-            {
-              books.map((book) => {
-                return (
-                  <BookCoverImage
-                    src={book.imageUrl}
-                    bookId={book.id}
-                    selected={selectBookId === book.id}
-                    handleClick={setSelectBookId}
-                    key={book.id}
-                  />
-                )
-              })
-            }
-          </div>
-          <p style={{ color: 'gray', textAlign: 'center', fontStyle: 'italic' }}>choose any</p>
-        </div>
-        <div className={pickstory.columnLeftLower}>
-          <Stack alignItems='center' direction="row">
-            <Button variant="contained" className={styles.buttonFilled} onClick={handleReadButtonClick}>Let's read!</Button>
-          </Stack>
-        </div>
-      </div>
-    )
-  }
-
-  return (
-    <>
-      <div className={pickstory.container} >
-        {
-          continueReading ? <ContinueReading /> : <PickStory />
-        }
         <div className={pickstory.columnRight}>
           <div className={pickstory.columnRightInner}>
             {/* <div style={{flex: 1, display: 'flex', flexDirection: 'row', backgroundColor: 'red', justifyContent: 'flex-end', alignItems: "center" }}> */}
@@ -167,6 +114,77 @@ export default function existingUserPickStory() {
             />
           </div>
         </div>
+      </>
+
+    )
+  }
+
+  const PickStory = () => {
+    return (
+      <>
+        <div className={pickstory.columnLeft}>
+          <div className={pickstory.columnLeftUpper}>
+            <div className={pickstory.columnRightHeader}>
+              <Stack spacing={2} direction="row">
+                <IconButton edge="start" color="inherit" aria-label="menu" sx={{ mr: 2 }} onClick={handleBackButtonClick}>
+                  <ArrowBackIosNewRounded sx={{ color: '#735BF2' }} />
+                </IconButton>
+                <p style={{ textAlign: 'center', paddingTop: '.5rem', paddingLeft: '0rem' }}>Back</p>
+              </Stack>
+            </div>
+            <section className={utilStyles.headingXl}>
+              <p>Pick your story!<br />
+                & start reading!</p>
+            </section>
+            {/* <section className={utilStyles.headingMd} > 
+                <p>All you have to do is read a story you like!</p>
+            </section>  */}
+            <div className={pickstory.columnLeftUpperMiddle1}>
+              {
+                books.map((book) => {
+                  return (
+                    <BookCoverImage
+                      src={book.imageUrl}
+                      bookId={book.id}
+                      selected={selectBookId === book.id}
+                      handleClick={setSelectBookId}
+                      key={book.id}
+                    />
+                  )
+                })
+              }
+            </div>
+            <p style={{ color: 'gray', textAlign: 'center', fontStyle: 'italic' }}>choose any</p>
+          </div>
+          <div className={pickstory.columnLeftLower}>
+            <Stack alignItems='center' direction="row">
+              <Button variant="contained" className={styles.buttonFilled} onClick={handleReadButtonClick}>Let's read!</Button>
+            </Stack>
+          </div>
+        </div>
+        <div className={pickstory.columnRightPickStory}>
+          <div className={pickstory.columnRightInner}>
+            {/* <div style={{flex: 1, display: 'flex', flexDirection: 'row', backgroundColor: 'red', justifyContent: 'flex-end', alignItems: "center" }}> */}
+            <Image
+              src="/images/pickStory.png"
+              width={0}
+              height={0}
+              sizes="100vw"
+              style={{ width: 'auto', height: 'auto' }} // optional
+            />
+          </div>
+        </div>
+      </>
+    )
+  }
+
+  return (
+    <>
+      <div className={pickstory.container} >
+        {
+          continueReading ? <ContinueReading /> : <PickStory />
+        }
+
       </div>
     </>
   );

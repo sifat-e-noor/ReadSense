@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import  { siteTitle } from '../components/layout';
+import { siteTitle } from '../components/layout';
 import BasicTextFields from '../components/textfield';
 import landing from '../styles/landing.module.css';
 import Button from '@mui/material/Button';
@@ -8,7 +8,7 @@ import styles from '../components/button.module.css';
 import { signIn, getSession } from 'next-auth/react';
 import * as React from 'react';
 import FingerprintJS from '@fingerprintjs/fingerprintjs';
-import {  useDeviceData   } from 'react-device-detect';
+import { useDeviceData } from 'react-device-detect';
 import toast from "../components/Toast";
 import { useRouter } from "next/router";
 
@@ -56,23 +56,23 @@ export default function Home() {
     type: 'email',
     name: 'username',
   }
-  
+
   const onSubmit = async (event) => {
     event.preventDefault()
-    
+
     const doLogin = async () => {
       const formData = new FormData(event.currentTarget)
       const componentKeys = ["fonts", "languages", "colorDepth", "screenResolution", "timezone", "touchSupport"];
-      const deviceInfo = { ...deviceData, fpHash, ...componentKeys.reduce((acc, key) => ({ ...acc, [key]: components[key] }), {})  };
-      
+      const deviceInfo = { ...deviceData, fpHash, ...componentKeys.reduce((acc, key) => ({ ...acc, [key]: components[key] }), {}) };
+
       const result = await signIn('credentials', {
         redirect: false,
-        username:formData.get('username'),
+        username: formData.get('username'),
         password: '',
         fingerPrint: fpHash,
-        deviceInfo: JSON.stringify(deviceInfo) ,
+        deviceInfo: JSON.stringify(deviceInfo),
         // callbackUrl: '/'
-      }).then( (response) => {       
+      }).then((response) => {
         if (response.error) {
           console.log("response:" + response.error);
           notify("error", "Unexpected error occurred. Please retry again.");
@@ -81,8 +81,8 @@ export default function Home() {
         if (response.ok) {
           void router.push("/");
         }
-      
-      } );
+
+      });
     }
 
     if (fpHash === undefined || components === undefined || deviceData === undefined) {
@@ -93,47 +93,50 @@ export default function Home() {
   }
   return (
     <>
-      <Head><title>{siteTitle}</title></Head> 
+      <Head><title>{siteTitle}</title></Head>
       <div className={landing.container} >
         <div className={landing.columnLeft}>
           <div className={landing.columnLeftInner}>
-          {/* <div style={{flex: 1, display: 'flex', flexDirection: 'row', backgroundColor: 'red', justifyContent: 'flex-end', alignItems: "center" }}> */}
+            {/* <div style={{flex: 1, display: 'flex', flexDirection: 'row', backgroundColor: 'red', justifyContent: 'flex-end', alignItems: "center" }}> */}
             <Image
               src="/images/readers.jpg"
               width={0}
               height={0}
               sizes="100vw"
               style={{ width: 'auto', height: 'auto' }} // optional
-            /> 
+            />
           </div>
         </div>
         <div className={landing.columnRight}>
-        
+
           <div className={landing.columnRightUpper}>
             <Image
               src="/images/logo.jpg"
               width={0}
               height={0}
               sizes="100vw"
-              style={{ width: 'auto', height: 'auto'}} // optional
-              />
-            <form onSubmit={onSubmit}>
-              <BasicTextFields setCurrentValue = {handleUsernameChange} inputProps={inputProps} />    
-              <Button type="submit"  variant="contained" sx= {{width: '238px'}} className={styles.buttonFilled}>Remember me</Button> 
-            </form>
+              style={{ width: 'auto', height: 'auto' }} // optional
+            />
+            {/* <form onSubmit={onSubmit}>
+              <BasicTextFields setCurrentValue={handleUsernameChange} inputProps={inputProps} />
+              <Button type="submit" variant="contained" sx={{ width: '238px' }} className={styles.buttonFilled}>Remember me</Button>
+            </form> */}
           </div>
-
           <div className={landing.columnRightLower}>
-              {/* <BasicTextFields setCurrentValue = {handleUsernameChange} />    
+            <form onSubmit={onSubmit}>
+              <BasicTextFields setCurrentValue={handleUsernameChange} inputProps={inputProps} />
+              <Button type="submit" variant="contained" sx={{ width: '238px' }} className={styles.buttonFilled}>Remember me</Button>
+            </form>
+            {/* <BasicTextFields setCurrentValue = {handleUsernameChange} />    
               <Button onClick={onSubmit}  variant="contained" sx= {{width: '238px'}} className={styles.buttonFilled}>Remember me</Button>  */}
           </div>
         </div>
       </div>
-   </>
+    </>
   );
 }
 
-Home.getInitialProps = async (context) => { 
+Home.getInitialProps = async (context) => {
   const { req, res } = context;
 
   const session = await getSession({ req });

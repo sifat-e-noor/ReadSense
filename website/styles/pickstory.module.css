@@ -30,6 +30,24 @@
     background-Color: white;
     margin-top: 8px;
   }
+
+  .columnRightPickStory{
+    display: flex;
+    flex-direction: column;
+    flex: 50%;
+    height: 100vh;
+    background-Color: white;
+    margin-top: 8px;
+  }
+
+  .columnRightInnerPickStory{
+    flex: 1;
+    display: flex;
+    flex-Direction: column;
+    background-Color: white;
+    justify-Content: space-around;
+    align-Items: center;
+  }
   
   .columnRightInner{
     flex: 1;
@@ -41,6 +59,15 @@
   }
 
   .columnLeft{
+    display: flex;
+    flex-direction: column;
+    flex: 50%;
+    height: 100vh;
+    background-color: white;
+    /* width: 50%; */
+  } 
+
+  .columnLeftPickStory{
     display: flex;
     flex-direction: column;
     flex: 50%;
@@ -119,4 +146,79 @@
     /* width: 50%; */
   }
 
-  
+  @media (max-width: 600px) {
+    .columnLeftUpperMiddleFewContent{
+      flex: .1;
+      display: flex;
+      flex-Direction: column;
+      background-Color: white;
+      justify-Content: flex-start;
+      align-Items: center;
+      margin-top: 1rem; 
+      flex-wrap: wrap;
+      /* width: 50%; */
+    }
+    .columnRightHeader{
+      display: flex;
+      flex-direction: row;
+      flex: .1;
+      height: 100vh;
+      margin-left: 10px;
+      margin-top: 8px;
+      justify-content: flex-start;
+      align-items: center;
+    }
+
+    .columnLeftUpperFewContent{
+      flex: .1;
+      display: flex;
+      flex-Direction: column;
+      background-Color: white;
+      justify-Content: flex-start;
+    }
+    .columnLeft{
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      /* height: 100vh; */
+      background-color: white;
+      height: 35%;
+    } 
+
+    .columnLeftPickStory{
+      display: flex;
+      flex-direction: column;
+      flex: 100%;
+      height: 100vh;
+      background-color: white;
+      /* width: 50%; */
+    } 
+
+    .columnRightInnerPickStory{
+      flex: 5;
+      display: flex;
+      flex-Direction: column;
+      background-Color: white;
+      justify-Content: space-around;
+      align-Items: center;
+  }
+
+  .columnRightPickStory{
+    display: flex;
+    flex-direction: column;
+    flex: 50%;
+    height: 100vh;
+    background-Color: white;
+    margin-top: 450px;
+  }
+
+  .columnRightInner{
+    flex: 1;
+    display: flex;
+    flex-Direction: column;
+    background-Color: white;
+    justify-Content: flex-start;
+    align-Items: center;
+    margin-top: 50px;
+  }
+}

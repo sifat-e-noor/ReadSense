@@ -61,3 +61,82 @@
     width: 80%;
     margin-top: 1rem;
   }
+
+
+  @media (max-width: 600px) {
+    .container {
+      display: flex;
+      flex: 100%;
+      flex-direction: row;
+      height: 100vh;   
+      flex-wrap: wrap;
+      background-color: white;
+      justify-content: center;
+    }
+  
+    .columnLeft{
+      display: flex;
+      flex-direction: row;
+      flex:18;
+      background-color: white;
+    }
+    .columnLeftInner{
+      display: flex;
+      flex-Direction: row;
+      background-Color: white;
+      justify-Content: flex-start;
+      align-Items: flex-end;
+    } 
+  
+    /* .columnRight{
+      display: flex;
+      flex-direction: column;
+      flex: 5;
+      background-color: white;
+    }
+  
+    .columnRightUpper{
+      display: flex;
+      flex: .1;
+      flex-Direction: column;
+      background-Color: white;
+      justify-Content: flex-start;
+      align-Items: center;
+    }
+  
+    .columnRightLower{
+      flex: 1;
+      display: flex;
+      flex-Direction: column;
+      background-Color: white;
+      justify-Content: flex-start;
+      align-Items: center;
+    } */
+  }
+
+/* Tablets */
+/* @media (min-width: 601px) and (max-width: 1024px) {
+  .container {
+    display: flex;
+    flex: 100%;
+    flex-direction: row;
+    height: 100vh;   
+    flex-wrap: wrap;
+    background-color: white;
+    justify-content: center;
+  }
+
+  .columnLeft{
+    display: flex;
+    flex-direction: row;
+    flex:18;
+    background-color: white;
+  }
+  .columnLeftInner{
+    display: flex;
+    flex-Direction: row;
+    background-Color: white;
+    justify-Content: flex-start;
+    align-Items: flex-end;
+  } 
+} */

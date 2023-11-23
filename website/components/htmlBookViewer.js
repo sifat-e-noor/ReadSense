@@ -16,6 +16,28 @@ const HTMLViewer = (props) => {
   const  dispatch = useDispatch();
   const bookViewerRef = useRef();
 
+  const [windowDimensions, setWindowDimensions] = useState({
+    width: typeof window !== 'undefined' ? window.innerWidth : 0,
+    height: typeof window !== 'undefined' ? window.innerHeight : 0,
+  });
+
+  useEffect(() => {
+    function handleResize() {
+      setWindowDimensions({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      });
+    }
+
+    window.addEventListener('resize', handleResize);
+
+    // Call the function to set the initial state
+    handleResize();
+
+    // Remove event listener on cleanup
+    return () => window.removeEventListener('resize', handleResize);
+  }, []); // Empty array ensures that effect is only run on mount and unmount
+ console.log("layout", windowDimensions);
   // Fetch the HTML content for the selected book
   useEffect(() => {
     if (props.src === undefined) {
@@ -85,8 +107,8 @@ const HTMLViewer = (props) => {
         textAlign: alignment,
         backgroundColor: 'white',
         // margin: '4rem auto',
-        marginLeft: '100px',
-        marginRight: '100px',
+        marginLeft: (windowDimensions.width > 500)? '100px' : '10px',
+        marginRight: windowDimensions.width > 500? '100px': '10px',
       }}
       dangerouslySetInnerHTML={{ __html: htmlContent }}
     />
