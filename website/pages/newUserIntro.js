@@ -86,10 +86,10 @@ export default function Introduction() {
             {/* <div style={{flex: 1, display: 'flex', flexDirection: 'row', backgroundColor: 'red', justifyContent: 'flex-end', alignItems: "center" }}> */}
             <Image
               src="/images/reader_image.jpg"
-              width={0}
-              height={0}
+              width={300}
+              height={300}
               sizes="100vw"
-              style={{ width: 'auto', height: 'auto' }} // optional
+              // style={{ width: 'auto', height: 'auto' }} // optional
             /> 
             </div>
           </div>

@@ -191,7 +191,7 @@ function ResponsiveLayout(props) {
                                     id="menu-appbar"
                                     // anchorEl={anchorElNav}
                                     anchorOrigin={{
-                                        vertical: 'bottom',
+                                        vertical: 'top',
                                         horizontal: 'right',
                                     }}
                                     keepMounted
@@ -202,7 +202,7 @@ function ResponsiveLayout(props) {
                                     open={Boolean(anchorElNav)}
                                     onClose={handleCloseNavMenu}
                                     sx={{
-                                        display: { xs: 'block', md: 'none', top: '-15px'} ,
+                                        display: { xs: 'block', md: 'none', top: '30px'} ,
                                     }}
                                 >
                                     <Stack spacing={.5} direction="column" sx={{ margin: '6px', justifyContent: 'center' }}>

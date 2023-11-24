@@ -201,8 +201,8 @@ export default function FeedBackModal(props) {
                             src="/images/feedback.png"
                             width={300}
                             height={300}
-                            // sizes="100vw"
-                            style={{ width: 'auto', height: 'auto' }} // optional
+                            sizes="100vw"
+                            // style={{ width: 'auto', height: 'auto' }} // optional
                         /> 
                     </DialogContent>
                 </>

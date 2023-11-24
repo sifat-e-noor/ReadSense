@@ -100,10 +100,11 @@ export default function Home() {
             {/* <div style={{flex: 1, display: 'flex', flexDirection: 'row', backgroundColor: 'red', justifyContent: 'flex-end', alignItems: "center" }}> */}
             <Image
               src="/images/readers.jpg"
-              width={0}
-              height={0}
-              sizes="100vw"
-              style={{ width: 'auto', height: 'auto' }} // optional
+              width={300}
+              height={200}
+              // sizes="100vw"
+              sizes="(max-width: 600px) 100vw, (max-width: 900px) 100vw, 5000px"
+              // style={{ width: 'auto', height: 'auto' }} // optional
             />
           </div>
         </div>
@@ -112,10 +113,11 @@ export default function Home() {
           <div className={landing.columnRightUpper}>
             <Image
               src="/images/logo.jpg"
-              width={0}
-              height={0}
-              sizes="100vw"
-              style={{ width: 'auto', height: 'auto' }} // optional
+              width={240}
+              height={120}
+              sizes="(max-width: 600px) 100vw, (max-width: 900px) 100vw, 5000px"
+              // sizes="100vw"
+              // style={{ width: 'auto', height: 'auto' }} // optional
             />
             {/* <form onSubmit={onSubmit}>
               <BasicTextFields setCurrentValue={handleUsernameChange} inputProps={inputProps} />

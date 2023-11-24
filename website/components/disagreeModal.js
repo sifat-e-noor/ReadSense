@@ -52,7 +52,7 @@ export default function DisagreeModal(props) {
                         src="/images/disagree.png"
                         width={300}
                         height={300}
-                    // sizes="100vw"
+                        sizes="100vw"
                     // style={{ width: 'auto', height: 'auto' }} // optional
                     />
                 </DialogContent>

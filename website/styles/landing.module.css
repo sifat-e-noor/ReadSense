@@ -133,7 +133,7 @@
     display: flex;
     flex-direction: column;
     flex: 1;
-    height: 100vh;
+    /* height: 100vh; */
     background-color: white;
     /* width: 50%; */
   } 
@@ -144,8 +144,8 @@
     flex-Direction: column;
     background-Color: white;
     justify-Content: flex-end;
-    align-Items: center;
-    width: 63%;
+    align-Items: flex-start;
+    /* width: 63%; */
   }
 
   .columnRightLower{
@@ -190,7 +190,7 @@
     display: flex;
     flex-direction: column;
     flex: 1;
-    height: 100vh;
+    /* height: 100vh; */
     background-color: white;
     /* width: 50%; */
   } 
@@ -201,8 +201,8 @@
     flex-Direction: column;
     background-Color: white;
     justify-Content: flex-end;
-    align-Items: center;
-    width: 47%;
+    align-Items: flex-start;
+    /* width: 39%; */
   }
 
   .columnRightLower{
@@ -257,8 +257,8 @@
     flex-Direction: column;
     background-Color: white;
     justify-Content: flex-end;
-    align-Items: center;
-    width: 47%;
+    align-Items: flex-start;
+    /* width: 47%; */
   }
 
   .columnRightLower{
@@ -273,7 +273,7 @@
 }
 
 /* XLarge laptops and desktops */
-@media (min-width: 1024px) and (max-width: 1230px) {
+/* @media (min-width: 1024px) and (max-width: 1230px) {
   .container {
     display: flex;
     flex: 100%;
@@ -304,7 +304,6 @@
     flex: 1;
     height: 100vh;
     background-color: white;
-    /* width: 50%; */
   } 
 
   .columnRightUpper{
@@ -314,7 +313,6 @@
     background-Color: white;
     justify-Content: flex-end;
     align-Items: center;
-    /* width: 33%; */
   }
 
   .columnRightLower{
@@ -325,10 +323,10 @@
     justify-Content: flex-start;
     align-Items: baseline;
   }
-}
+} */
 
 /* XLarge laptops and desktops */
-@media (min-width: 1024px) and (max-width: 1439px) {
+/* @media (min-width: 1024px) and (max-width: 1439px) {
   .container {
     display: flex;
     flex: 100%;
@@ -359,7 +357,6 @@
     flex: 1;
     height: 100vh;
     background-color: white;
-    /* width: 50%; */
   } 
 
   .columnRightUpper{
@@ -380,7 +377,7 @@
     justify-Content: flex-start;
     align-Items: baseline;
   }
-}
+} */
 
 /* XLarge laptops and desktops */
 @media (min-width: 1440px) {
@@ -423,8 +420,8 @@
     flex-Direction: column;
     background-Color: white;
     justify-Content: flex-end;
-    align-Items: center;
-    width: 33%;
+    align-Items: flex-start;
+    /* width: 33%; */
   }
 
   .columnRightLower{
@@ -478,8 +475,8 @@
     flex-Direction: column;
     background-Color:white;
     justify-Content: flex-end;
-    align-Items: center;
-    width: 28%;
+    align-Items: flex-start;
+    /* width: 25%; */
   }
 
   .columnRightLower{
@@ -533,8 +530,8 @@
     flex-Direction: column;
     background-Color: white;
     justify-Content: flex-end;
-    align-Items: center;
-    width: 19%;
+    align-Items: flex-start;
+    /* width: 19%; */
   }
 
   .columnRightLower{

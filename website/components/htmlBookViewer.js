@@ -1,19 +1,19 @@
 // components/BookViewer.js
 "use client";
 import { useEffect, useState, useRef } from 'react';
-import { getFontSize, getFonts,  getLineHeight,  getLineSpacing,  getAlign,  getLayout,  } from  "../redux/readerSlice";
-import { setScrollEvent, setScrollTrackingData, setBookPTagOffset, sendScrollTrackingData } from  "../redux/readerTrackingSlice";
-import{ useSelector, useDispatch }from  "react-redux";
+import { getFontSize, getFonts, getLineHeight, getLineSpacing, getAlign, getLayout, } from "../redux/readerSlice";
+import { setScrollEvent, setScrollTrackingData, setBookPTagOffset, sendScrollTrackingData } from "../redux/readerTrackingSlice";
+import { useSelector, useDispatch } from "react-redux";
 
 const HTMLViewer = (props) => {
   const [htmlContent, setHTMLContent] = useState('');
-  const  fontSize = useSelector(getFontSize);
-  const  fonts = useSelector(getFonts);
-  const  lineHeight = useSelector(getLineHeight);
-  const  lineSpacing = useSelector(getLineSpacing);
-  const  alignment = useSelector(getAlign);
-  const  layout = useSelector(getLayout);
-  const  dispatch = useDispatch();
+  const fontSize = useSelector(getFontSize);
+  const fonts = useSelector(getFonts);
+  const lineHeight = useSelector(getLineHeight);
+  const lineSpacing = useSelector(getLineSpacing);
+  const alignment = useSelector(getAlign);
+  const layout = useSelector(getLayout);
+  const dispatch = useDispatch();
   const bookViewerRef = useRef();
 
   const [windowDimensions, setWindowDimensions] = useState({
@@ -37,7 +37,7 @@ const HTMLViewer = (props) => {
     // Remove event listener on cleanup
     return () => window.removeEventListener('resize', handleResize);
   }, []); // Empty array ensures that effect is only run on mount and unmount
- console.log("layout", windowDimensions);
+  console.log("layout", windowDimensions);
   // Fetch the HTML content for the selected book
   useEffect(() => {
     if (props.src === undefined) {
@@ -64,7 +64,7 @@ const HTMLViewer = (props) => {
       timer !== undefined && clearTimeout(timer);
       timer = setTimeout(() => {
         dispatch(setScrollTrackingData("scrollEnd"));
-        dispatch(sendScrollTrackingData({"data":1}))
+        dispatch(sendScrollTrackingData({ "data": 1 }))
       }, 100);
     }
     window.addEventListener('scroll', handleScroll);
@@ -73,16 +73,16 @@ const HTMLViewer = (props) => {
       if (timer !== undefined) {
         clearTimeout(timer);
         dispatch(setScrollTrackingData("scrollEnd"));
-        dispatch(sendScrollTrackingData({"data":1}) );
+        dispatch(sendScrollTrackingData({ "data": 1 }));
       }
     };
   }, []);
 
   // set the scroll position to the last saved position
   useEffect(() => {
-    if(htmlContent !== ''){
+    if (htmlContent !== '') {
       let pTagOffsets = []
-      bookViewerRef.current.querySelectorAll('p').forEach((p,index) => {
+      bookViewerRef.current.querySelectorAll('p').forEach((p, index) => {
         pTagOffsets.push(p.offsetTop)
       });
       dispatch(setBookPTagOffset(pTagOffsets));
@@ -92,26 +92,35 @@ const HTMLViewer = (props) => {
         if (lastreadPTag) {
           window.scrollTo(0, lastreadPTag.offsetTop);
         }
-        
+
       }
     }
-  },[htmlContent]);
+  }, [htmlContent]);
 
   return (
-    <div ref={bookViewerRef}
-      style={{
-        fontFamily: fonts,
-        fontSize: fontSize+'px',
-        lineHeight: lineHeight+'px',
-        letterSpacing: lineSpacing+'px',
-        textAlign: alignment,
-        backgroundColor: 'white',
-        // margin: '4rem auto',
-        marginLeft: (windowDimensions.width > 500)? '100px' : '10px',
-        marginRight: windowDimensions.width > 500? '100px': '10px',
-      }}
-      dangerouslySetInnerHTML={{ __html: htmlContent }}
-    />
+  //   <><style jsx>{`
+  //   div img {
+  //     width: 100%;
+  //     height: auto;
+  //   }
+  // `}</style>
+      <div ref={bookViewerRef}
+        style={{
+          fontFamily: fonts,
+          fontSize: fontSize + 'px',
+          lineHeight: lineHeight + 'px',
+          letterSpacing: lineSpacing + 'px',
+          textAlign: alignment,
+          backgroundColor: 'white',
+          // margin: '4rem auto',
+          marginLeft: (windowDimensions.width > 500) ? '100px' : '10px',
+          marginRight: windowDimensions.width > 500 ? '100px' : '10px',
+          overflow: 'auto',
+          maxWidth: '100%',
+        }}
+        dangerouslySetInnerHTML={{ __html: htmlContent }}
+      />
+    // </>
   );
 };
 
