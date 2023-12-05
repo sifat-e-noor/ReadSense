@@ -1,14 +1,4 @@
-<!-- # ReadSense
-
-Frontend of ReadSense. Developed using NextJs.
-
-## Development Setup
-
-- Create a .env.local file by copying [.env.local.example](./.env.local.example). And update `NEXTAUTH_SECRET`.
-- Run the backend API. Follow the instruction [here](../ReadSenseApi/README.md).
-- You can view your app by running `npm run dev` inside your terminal and navigating to localhost:3000 in the browser. -->
-
- # About ReadSense :
+# About ReadSense :
 Millions of individuals worldwide have central visual im-
 pairment, a medical condition where the center field of their
 vision is blurred. This creates challenges and produces diffi-
@@ -26,3 +16,19 @@ data points through logging interactions with the application.
 The project underwent several low-fidelity iterations, user
 testing through informal evaluations and an experiment, and
 then was developed as a high-fidelity prototype.
+
+
+## Development Setup
+Peoject comprise of 2 components 
+ 1. Website 
+ 2. ReadSnese Api
+
+Find The description and devlopement setup of each component in their respective readme files [Website](./website/README.md), [ReadSenseApi](./ReadSenseApi/README.md).
+
+## Deployment
+Currently this project is deployed to Azure Cloud. You can visit it using this url https://readsense.azurewebsites.net/
+
+>Note: As we are using Azure App Service Free tier to deploy this website, azure will stop the server in case of long time inactivity, and it will start running again when we are trying to access the website. So sometimes, in this scenerio, it can take long time to load the website.
+
+In the production deployment, we are using Azure App Service to deploy both website and ReadSensApi services. For database we are using [Azure SQL Database for free](https://learn.microsoft.com/en-us/azure/azure-sql/database/free-offer?view=azuresql).
+
