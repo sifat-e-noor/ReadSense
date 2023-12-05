@@ -196,12 +196,12 @@
   }
 }
 
-/* XLarge laptops and desktops */
+/* XXLarge laptops and desktops */
 @media (min-width: 2560px) {
   .HeaderLabel {
     text-align: center;
     font-family: 'Nunito_Sans', sans-serif;
     color: #182531;
-    font-size: 20px;
+    font-size: 18px;
   }
 }
