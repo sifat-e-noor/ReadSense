@@ -37,7 +37,7 @@ const HTMLViewer = (props) => {
     // Remove event listener on cleanup
     return () => window.removeEventListener('resize', handleResize);
   }, []); // Empty array ensures that effect is only run on mount and unmount
-  console.log("layout", windowDimensions);
+
   // Fetch the HTML content for the selected book
   useEffect(() => {
     if (props.src === undefined) {
