@@ -17,8 +17,7 @@ developed.
 ReadSense is a personalized reading experience
 analyzer that can be used across various devices including
 e-readers, tablet, and smartphones, and in different contexts
-such as place, brightness and environment. It aims to anal-
-yse user reading patterns and preferences through collecting
+such as place, brightness and environment. It aims to analyse user reading patterns and preferences through collecting
 data points through logging interactions with the application.
 The project underwent several low-fidelity iterations, user
 testing through informal evaluations and an experiment, and
