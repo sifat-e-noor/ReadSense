@@ -37,9 +37,9 @@ Find The description and devlopement setup of each component in their respective
 ## Deployment
 Currently this project is deployed to Azure Cloud. You can visit it using this url https://readsense.azurewebsites.net/
 
->Note: As we are using Azure App Service Free tier to deploy this website, azure will stop the server in case of long time inactivity, and it will start running again when we are trying to access the website. So sometimes, in this scenerio, it can take long time to load the website.
+>Note: As we are using [Azure App Service](https://azure.microsoft.com/en-us/products/app-service) Free tier to deploy this website, azure will stop the server in case of long time inactivity, and it will start running again when we are trying to access the website. So sometimes, in this scenerio, it can take long time to load the website.
 
-In the production deployment, we are using Azure App Service to deploy both website and ReadSensApi services. For database we are using [Azure SQL Database for free](https://learn.microsoft.com/en-us/azure/azure-sql/database/free-offer?view=azuresql).
+In the production deployment, we are using [Azure App Service](https://azure.microsoft.com/en-us/products/app-service) to deploy both website and ReadSensApi services. For database, we are using [Azure SQL Database for free](https://learn.microsoft.com/en-us/azure/azure-sql/database/free-offer?view=azuresql).
 
 ## Data
 
