@@ -86,7 +86,6 @@ User Reading Environment
 | lineHeight | json | Contains the old and new line Height in `px`. If line Height is not changed then it is `null`. |  `{ "old": 18, "new": 20, "reason": "preferred" }` |
 | lineSpacing | json | Contains the old and new line spacing in `px`. If line spacing is not changed then it is `null`. |  `{ "old": .1, "new": .5, "reason": "preferred" }` |
 | align | json | Contains the old and new align value. If align is not changed then it is `null`. |  `{ "old": "left", "new": "justify", "reason": "preferred" }` |
-| fontSize | json | Contains the old and new fontsize. If fontsize is not changed then it is `null`. |  `{ "old": "left", "new": "justify", "reason": "preferred" }` |
 | bookInfo | json | Contains unique identifier of the book user currently reading | `{ "id": 1 }` |
 | settings | json | Contains all the reading settings values after this change was applied.   | `{ "fontSize": 18, "fonts": "serif", "lineHeight": 20, "lineSpacing": 0.1, "align": "justify", "layout": "row" }`|
 | inserted | datetime | UTC timestamp  of when this data is saved to database | `2023-11-29T00:24:15.8985796+00:00` |
